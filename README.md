@@ -3,6 +3,7 @@
 
 这是一个基于IOS的手机视频直播SDK.
 
+
 LiveVideoCoreSDK是基于IOS的视频直播SDK，包含一下功能:
 
 1, 提供IOS苹果手机的RTMP推流；
@@ -18,15 +19,17 @@ LiveVideoCoreSDK是基于IOS的视频直播SDK，包含一下功能:
 4，提供RTMP连接状态的回调
 
 
+
 SDK代码结构简介：
 
-0，如何马上使用？
+一，如何马上使用？
 
 下载代码后，直接用xcode打开LiveVideoCoreSDK.xcworkspace。(注意是xcworkspace，不是xcodeproj)
 
 需要注意的是，视频直播不支持xcode的虚拟机，请用iphone真机进行调试和试用。
 
-1，代码结构
+
+二，代码结构
 
 1) LiveVideoCoreDemo就是Demo例子，你抄代码的地方，你懂的。
 
