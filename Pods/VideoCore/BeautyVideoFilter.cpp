@@ -22,6 +22,52 @@
 
 namespace videocore { namespace filters {
     
+    enum LIVE_BEAUTY_LEVEL
+    {
+        LIVE_BEAUTY_LEVEL1,
+        LIVE_BEAUTY_LEVEL2,
+        LIVE_BEAUTY_LEVEL3,
+        LIVE_BEAUTY_LEVEL4,
+        LIVE_BEAUTY_LEVEL5
+    };
+    
+    static void getBeautyParam(GLfloat* fBeautyParam, enum LIVE_BEAUTY_LEVEL level){
+        switch (level) {
+            case LIVE_BEAUTY_LEVEL1:
+                fBeautyParam[0] = 1.0;
+                fBeautyParam[1] = 1.0;
+                fBeautyParam[2] = 0.15;
+                fBeautyParam[3] = 0.15;
+                break;
+            case LIVE_BEAUTY_LEVEL2:
+                fBeautyParam[0] = 0.8;
+                fBeautyParam[1] = 0.9;
+                fBeautyParam[2] = 0.2;
+                fBeautyParam[3] = 0.2;
+                break;
+            case LIVE_BEAUTY_LEVEL3:
+                fBeautyParam[0] = 0.6;
+                fBeautyParam[1] = 0.8;
+                fBeautyParam[2] = 0.25;
+                fBeautyParam[3] = 0.25;
+                break;
+            case LIVE_BEAUTY_LEVEL4:
+                fBeautyParam[0] = 0.4;
+                fBeautyParam[1] = 0.7;
+                fBeautyParam[2] = 0.38;
+                fBeautyParam[3] = 0.3;
+                break;
+            case LIVE_BEAUTY_LEVEL5:
+                fBeautyParam[0] = 0.33/1.5;
+                fBeautyParam[1] = 0.63/1.5;
+                fBeautyParam[2] = 0.4/1.5;
+                fBeautyParam[3] = 0.35/1.5;
+                break;
+            default:
+                break;
+        }
+    }
+
     bool BeautyVideoFilter::s_registered = BeautyVideoFilter::registerFilter();
     
     bool
@@ -241,10 +287,7 @@ namespace videocore { namespace filters {
                 glUniform2fv(m_uWH, 1, fWHArray);
                 
                 GLfloat fBeautyParam[4];
-                fBeautyParam[0] = 0.33;
-                fBeautyParam[1] = 0.63;
-                fBeautyParam[2] = 0.4;
-                fBeautyParam[3] = 0.35;
+                getBeautyParam(fBeautyParam, LIVE_BEAUTY_LEVEL5);
                 glUniform4fv(m_beautyParam, 1, fBeautyParam);
                 break;
             case GL_3:
