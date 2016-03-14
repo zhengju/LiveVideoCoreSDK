@@ -16,7 +16,6 @@
 		B782802D1C86C95E0057E507 /* LiveVideoCoreDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B782802C1C86C95E0057E507 /* LiveVideoCoreDemoTests.m */; };
 		B78280381C86C95E0057E507 /* LiveVideoCoreDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280371C86C95E0057E507 /* LiveVideoCoreDemoUITests.m */; };
 		B78280471C86CA160057E507 /* LiveShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280461C86CA160057E507 /* LiveShowViewController.m */; };
-		B78280491C86CCA40057E507 /* libLiveVideoCoreSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280481C86CCA40057E507 /* libLiveVideoCoreSDK.a */; };
 		B78280521C86CD7B0057E507 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280511C86CD7B0057E507 /* libstdc++.tbd */; };
 		B78280541C86CD880057E507 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280531C86CD880057E507 /* CoreGraphics.framework */; };
 		B78280561C86CD980057E507 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280551C86CD980057E507 /* OpenGLES.framework */; };
@@ -26,6 +25,8 @@
 		B782805E1C86CDCE0057E507 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B782805D1C86CDCE0057E507 /* CoreMedia.framework */; };
 		B782806B1C86E7F90057E507 /* XMNShareScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280681C86E7F90057E507 /* XMNShareScrollView.m */; };
 		B782806C1C86E7F90057E507 /* XMNShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B782806A1C86E7F90057E507 /* XMNShareView.m */; };
+		B7A2C31E1C92768100A9F4C1 /* libLiveVideoCoreSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280481C86CCA40057E507 /* libLiveVideoCoreSDK.a */; };
+		B7A2C3231C92989500A9F4C1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A2C3221C92989500A9F4C1 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		B78280681C86E7F90057E507 /* XMNShareScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMNShareScrollView.m; sourceTree = "<group>"; };
 		B78280691C86E7F90057E507 /* XMNShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMNShareView.h; sourceTree = "<group>"; };
 		B782806A1C86E7F90057E507 /* XMNShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMNShareView.m; sourceTree = "<group>"; };
+		B7A2C3221C92989500A9F4C1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7A2C3231C92989500A9F4C1 /* libz.tbd in Frameworks */,
+				B7A2C31E1C92768100A9F4C1 /* libLiveVideoCoreSDK.a in Frameworks */,
 				B782805E1C86CDCE0057E507 /* CoreMedia.framework in Frameworks */,
 				B782805C1C86CDC00057E507 /* AVFoundation.framework in Frameworks */,
 				B782805A1C86CDAE0057E507 /* VideoToolbox.framework in Frameworks */,
@@ -91,7 +95,6 @@
 				B78280561C86CD980057E507 /* OpenGLES.framework in Frameworks */,
 				B78280541C86CD880057E507 /* CoreGraphics.framework in Frameworks */,
 				B78280521C86CD7B0057E507 /* libstdc++.tbd in Frameworks */,
-				B78280491C86CCA40057E507 /* libLiveVideoCoreSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +191,7 @@
 				B78280551C86CD980057E507 /* OpenGLES.framework */,
 				B78280531C86CD880057E507 /* CoreGraphics.framework */,
 				B78280511C86CD7B0057E507 /* libstdc++.tbd */,
+				B7A2C3221C92989500A9F4C1 /* libz.tbd */,
 				B78280481C86CCA40057E507 /* libLiveVideoCoreSDK.a */,
 			);
 			name = Framework;
@@ -480,13 +484,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					../LiveVideoCoreSDK,
 					../Pods/VideoCore/api/IOS,
 				);
 				INFOPLIST_FILE = LiveVideoCoreDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alex.shi.livevidecoreDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alex.shi.livevideocoreDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -496,13 +501,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					../LiveVideoCoreSDK,
 					../Pods/VideoCore/api/IOS,
 				);
 				INFOPLIST_FILE = LiveVideoCoreDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alex.shi.livevidecoreDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alex.shi.livevideocoreDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

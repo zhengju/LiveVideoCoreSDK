@@ -1,3 +1,6 @@
+#ifndef URIPARSER_CPP_H
+#define URIPARSER_CPP_H
+
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -74,3 +77,4 @@ namespace http {
         return ret;
     }
 }
+#endif

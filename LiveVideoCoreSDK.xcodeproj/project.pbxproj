@@ -17,7 +17,7 @@
 		B7827FFF1C8685FA0057E507 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7827FFE1C8685FA0057E507 /* CFNetwork.framework */; };
 		B78280011C8686070057E507 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280001C8686070057E507 /* AudioToolbox.framework */; };
 		B78280031C86861A0057E507 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280021C86861A0057E507 /* AVFoundation.framework */; };
-		B78280051C86866B0057E507 /* libVideoCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280041C86866B0057E507 /* libVideoCore.a */; };
+		B7A2C3101C926D8000A9F4C1 /* libVideoCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */; };
 		B7CE54411C867E0E00437FF2 /* LiveVideoCoreSDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7CE54401C867E0E00437FF2 /* LiveVideoCoreSDK.h */; };
 		B7CE54431C867E0E00437FF2 /* LiveVideoCoreSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CE54421C867E0E00437FF2 /* LiveVideoCoreSDK.m */; };
 /* End PBXBuildFile section */
@@ -46,7 +46,7 @@
 		B7827FFE1C8685FA0057E507 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B78280001C8686070057E507 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B78280021C86861A0057E507 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B78280041C86866B0057E507 /* libVideoCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVideoCore.a; path = "Pods/../build/Debug-iphoneos/VideoCore/libVideoCore.a"; sourceTree = "<group>"; };
+		B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVideoCore.a; path = "Pods/../build/Debug-iphoneos/VideoCore/libVideoCore.a"; sourceTree = "<group>"; };
 		B7CE543D1C867E0E00437FF2 /* libLiveVideoCoreSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLiveVideoCoreSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CE54401C867E0E00437FF2 /* LiveVideoCoreSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoCoreSDK.h; sourceTree = "<group>"; };
 		B7CE54421C867E0E00437FF2 /* LiveVideoCoreSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoCoreSDK.m; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B78280051C86866B0057E507 /* libVideoCore.a in Frameworks */,
+				B7A2C3101C926D8000A9F4C1 /* libVideoCore.a in Frameworks */,
 				B78280031C86861A0057E507 /* AVFoundation.framework in Frameworks */,
 				B78280011C8686070057E507 /* AudioToolbox.framework in Frameworks */,
 				B7827FFF1C8685FA0057E507 /* CFNetwork.framework in Frameworks */,
@@ -115,7 +115,7 @@
 		D99D2EB03AFBAA9009BC5FAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B78280041C86866B0057E507 /* libVideoCore.a */,
+				B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */,
 				B78280021C86861A0057E507 /* AVFoundation.framework */,
 				B78280001C8686070057E507 /* AudioToolbox.framework */,
 				B7827FFE1C8685FA0057E507 /* CFNetwork.framework */,
@@ -312,6 +312,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 50189B312EC354A242A44563 /* Pods-LiveVideoCoreSDK.debug.xcconfig */;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"${PODS_ROOT}/boost",
 					"\"${PODS_ROOT}/boost\"",
@@ -329,6 +330,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/VideoCore",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UriParser-cpp",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -340,6 +342,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CDB0D307521A8C72761EA996 /* Pods-LiveVideoCoreSDK.release.xcconfig */;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"${PODS_ROOT}/boost",
 					"\"${PODS_ROOT}/boost\"",
@@ -357,6 +360,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/VideoCore",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UriParser-cpp",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

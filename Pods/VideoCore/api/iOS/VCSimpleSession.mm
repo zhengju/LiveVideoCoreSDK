@@ -52,6 +52,8 @@
 #   include <videocore/mixers/GenericAudioMixer.h>
 #endif
 
+#include "LibRtmpSessionMgr.hpp"
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 
@@ -525,8 +527,8 @@ namespace videocore { namespace simpleApi {
     uri << (rtmpUrl ? [rtmpUrl UTF8String] : "") << "/" << (streamKey ? [streamKey UTF8String] : "");
 
     m_outputSession.reset(
-                          new videocore::RTMPSession ( uri.str(),
-                                                      [=](videocore::RTMPSession& session,
+                          new videocore::LibRtmpSessionMgr ( uri.str(),
+                                                      [=](videocore::LibRtmpSessionMgr& session,
                                                           ClientState_t state) {
 
                                                           DLog("ClientState: %d\n", state);
@@ -561,7 +563,7 @@ namespace videocore { namespace simpleApi {
 
                                                           }
 
-                                                      }) );
+                                                      }));
     VCSimpleSession* bSelf = self;
 
     _bpsCeiling = _bitrate;
@@ -626,7 +628,7 @@ namespace videocore { namespace simpleApi {
 
                                           });
 
-    videocore::RTMPSessionParameters_t sp ( 0. );
+    videocore::LibRTMPSessionParameters_t sp ( 0. );
 
     sp.setData(self.videoSize.width,
                self.videoSize.height,
