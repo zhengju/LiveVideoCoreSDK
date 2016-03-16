@@ -5,7 +5,7 @@
 
 LiveVideoCoreSDK是基于IOS的视频直播SDK(支持IOS8.1以上)
 --------------------------------------------------------
-备注：本客户端支持Wowza, nginx-rtmp和Edgecast三种类型的RTMP服务器。不支持crtmpserver, red5和python rtmp server。
+备注：本客户端支持Wowza, nginx-rtmp，Edgecast，RED5，FMS几种类型的RTMP服务器. 还未确认支持的有crtmpserver和python rtmp server。
 --------------------------------------------------------------------------------
 
 包含一下功能:

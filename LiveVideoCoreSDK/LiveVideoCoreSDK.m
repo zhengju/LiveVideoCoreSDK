@@ -14,6 +14,7 @@
     NSURL* _rtmpUrl;
     NSString* _Dest;
     NSString* _LiveName;
+    UIView* _ShowPreview;
 }
 + (instancetype)sharedinstance {
     static LiveVideoCoreSDK *s_instance;
@@ -58,6 +59,7 @@
             *stop = YES;
         }];
         
+        _ShowPreview = previewView;
         [previewView addSubview:_livesession.previewView];
         _livesession.previewView.frame = previewView.bounds;
         
@@ -101,6 +103,7 @@
             *stop = YES;
         }];
         
+        _ShowPreview = previewView;
         [previewView addSubview:_livesession.previewView];
         _livesession.previewView.frame = previewView.bounds;
         
@@ -162,8 +165,10 @@
 - (void)setCameraFront:(Boolean)bCameraFrontFlag {
     if (!bCameraFrontFlag) {
         _livesession.cameraState = VCCameraStateBack;
+        _ShowPreview.transform = CGAffineTransformMakeScale(1.0, 1.0);
     } else {
         _livesession.cameraState = VCCameraStateFront;
+        _ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
     }
 }
 

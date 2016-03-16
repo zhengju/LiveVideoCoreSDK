@@ -11,6 +11,7 @@
 
 @implementation LiveShowViewController
 {
+    UIView* _AllBackGroudView;
     UIButton* _ExitButton;
     UILabel*  _RtmpStatusLabel;
     UIButton* _FilterButton;
@@ -24,6 +25,9 @@
 -(void) UIInit{
     double fScreenW = [UIScreen mainScreen].bounds.size.width;
     double fScreenH = [UIScreen mainScreen].bounds.size.height;
+    
+    _AllBackGroudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, fScreenW, fScreenH)];
+    [self.view addSubview:_AllBackGroudView];
     
     float fExitButtonW = 40;
     float fExitButtonH = 20;
@@ -84,7 +88,7 @@
 
 -(void) RtmpInit{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:self.view VideSize:LIVE_VIEDO_SIZE_CIF BitRate:LIVE_BITRATE_500Kbps FrameRate:LIVE_FRAMERATE_20];
+        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_CIF BitRate:LIVE_BITRATE_500Kbps FrameRate:LIVE_FRAMERATE_20];
         [LiveVideoCoreSDK sharedinstance].delete = self;
         
         [[LiveVideoCoreSDK sharedinstance] connect];
