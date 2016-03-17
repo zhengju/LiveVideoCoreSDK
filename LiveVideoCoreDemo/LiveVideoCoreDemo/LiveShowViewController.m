@@ -89,7 +89,7 @@
 -(void) RtmpInit{
     dispatch_async(dispatch_get_main_queue(), ^{
         [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_CIF BitRate:LIVE_BITRATE_500Kbps FrameRate:LIVE_FRAMERATE_20];
-        [LiveVideoCoreSDK sharedinstance].delete = self;
+        [LiveVideoCoreSDK sharedinstance].delegate = self;
         
         [[LiveVideoCoreSDK sharedinstance] connect];
         NSLog(@"Rtmp[%@] is connecting", self.RtmpUrl);

@@ -17,6 +17,7 @@
 #include "include/librtmp/rtmp.h"
 
 #define DATA_ITEMS_MAX_COUNT 100
+#define RTMP_DATA_RESERVE_SIZE 400
 
 typedef struct _DataItem
 {
@@ -296,15 +297,10 @@ int LibRtmpSession::RtmpPacketSend(RTMPPacket* packet)
 {
     int iRet = 0;
     
-    if(IsConnected() == 0)
-    {
-        return -1;
-    }
-    
-    if (0 == pthread_mutex_trylock(&_mConnstatMutex)) {
-        iRet = RTMP_SendPacket(_pRtmp,packet,TRUE);
-        pthread_mutex_unlock(&_mConnstatMutex);
-    }
+    //if (0 == pthread_mutex_trylock(&_mConnstatMutex)) {
+        iRet = RTMP_SendPacket(_pRtmp,packet,0);
+    //    pthread_mutex_unlock(&_mConnstatMutex);
+    //}
 
     return iRet;
 }
@@ -335,6 +331,7 @@ int LibRtmpSession::SendPacket(unsigned int nPacketType,unsigned char *data,unsi
 
     int nRet = RtmpPacketSend(&rtmp_pack);
 
+    RTMPPacket_Free(&rtmp_pack);
     return nRet;
 }
 
@@ -470,34 +467,29 @@ int LibRtmpSession::SendAACData(unsigned char* buf, int size, unsigned int timeS
 }
 
 int LibRtmpSession::SendAudioRawData(unsigned char* pBuff, int len, unsigned int ts){
-//    if (_uiStartTimestamp == 0) {
-//        _uiStartTimestamp = RTMP_GetTime();
-//    }else{
-//        _uiAudioDTS = RTMP_GetTime()-_uiStartTimestamp;
-//    }
-    unsigned char * body;
-    
     int rtmpLength = len;
-    RTMPPacket rtmp_pack;
-    RTMPPacket_Reset(&rtmp_pack);
-    RTMPPacket_Alloc(&rtmp_pack,rtmpLength);
+    RTMPPacket* pRtmp_pack = (RTMPPacket*)malloc(sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE+ rtmpLength+RTMP_DATA_RESERVE_SIZE);
+    memset(pRtmp_pack, 0, sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE+ rtmpLength+RTMP_DATA_RESERVE_SIZE);
     
-    body = (unsigned char *)rtmp_pack.m_body;
+    pRtmp_pack->m_body = ((char*)pRtmp_pack) + sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE + RTMP_DATA_RESERVE_SIZE/2;
     
     /*AAC RAW data*/
-    memcpy(body,pBuff,rtmpLength);
+    memcpy(pRtmp_pack->m_body,pBuff,rtmpLength);
     
-    rtmp_pack.m_packetType = RTMP_PACKET_TYPE_AUDIO;
-    rtmp_pack.m_nBodySize = rtmpLength;
-    rtmp_pack.m_nChannel = 0x04;
-    rtmp_pack.m_nTimeStamp = ts;
-    rtmp_pack.m_hasAbsTimestamp = 0;
-    rtmp_pack.m_headerType = RTMP_PACKET_SIZE_LARGE;
+    pRtmp_pack->m_packetType = RTMP_PACKET_TYPE_AUDIO;
+    pRtmp_pack->m_nBodySize = rtmpLength;
+    pRtmp_pack->m_nChannel = 0x04;
+    pRtmp_pack->m_nTimeStamp = ts;
+    pRtmp_pack->m_hasAbsTimestamp = 0;
+    pRtmp_pack->m_headerType = RTMP_PACKET_SIZE_LARGE;
     
     if(_pRtmp)
-        rtmp_pack.m_nInfoField2 = _pRtmp->m_stream_id;
+        pRtmp_pack->m_nInfoField2 = _pRtmp->m_stream_id;
     
-    return RtmpPacketSend(&rtmp_pack);
+    int iRet = RtmpPacketSend(pRtmp_pack);
+    
+    free(pRtmp_pack);
+    return iRet;
 }
 
 int LibRtmpSession::SendAudioData(unsigned char* pBuff, int len){
@@ -602,26 +594,28 @@ int LibRtmpSession::SeparateNalus(unsigned char* pBuff, int len)
 }
 
 int LibRtmpSession::SendVideoRawData(unsigned char* buf, int videodatalen, unsigned int ts){
-    int iRet = 0;
-
-    iRet = SendPacket(RTMP_PACKET_TYPE_VIDEO, buf, videodatalen, ts);
-//    if(_uiVideoLastAudioDTS == 0)
-//    {
-//        _uiVideoLastAudioDTS = _uiAudioDTS;
-//    }
-//    
-//    if(_uiVideoLastAudioDTS == _uiAudioDTS)
-//        _uiAudioDTSNoChangeCnt++;
-//    _uiVideoLastAudioDTS = _uiAudioDTS;
-//    
-//    if(_uiAudioDTSNoChangeCnt > 50)
-//    {
-//        iRet = SendPacket(RTMP_PACKET_TYPE_VIDEO, buf, videodatalen, RTMP_GetTime());
-//    }
-//    else
-//    {
-//        iRet =SendPacket(RTMP_PACKET_TYPE_VIDEO, buf, videodatalen, _uiAudioDTS);
-//    }
+    int rtmpLength = videodatalen;
+    
+    RTMPPacket* pRtmp_pack = (RTMPPacket*)malloc(sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE+ rtmpLength+RTMP_DATA_RESERVE_SIZE);
+    memset(pRtmp_pack, 0, sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE+ rtmpLength+RTMP_DATA_RESERVE_SIZE);
+    
+    pRtmp_pack->m_nBodySize = videodatalen;
+    pRtmp_pack->m_hasAbsTimestamp = 0;
+    pRtmp_pack->m_packetType = RTMP_PACKET_TYPE_VIDEO;
+    
+    if(_pRtmp)
+        pRtmp_pack->m_nInfoField2 = _pRtmp->m_stream_id;
+    
+    pRtmp_pack->m_nChannel = 0x04;
+    
+    pRtmp_pack->m_headerType = RTMP_PACKET_SIZE_LARGE;
+    pRtmp_pack->m_nTimeStamp = ts;
+    pRtmp_pack->m_body = ((char*)pRtmp_pack) + sizeof(RTMPPacket) + RTMP_MAX_HEADER_SIZE+RTMP_DATA_RESERVE_SIZE/2;
+    memcpy(pRtmp_pack->m_body,buf,videodatalen);
+    
+    int iRet = RtmpPacketSend(pRtmp_pack);
+    
+    free(pRtmp_pack);
 
     return iRet;
 }

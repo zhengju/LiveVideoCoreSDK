@@ -44,11 +44,12 @@ namespace videocore
 //        const int streamId = inMetadata.getData<kLibRTMPMetadataMsgStreamId>();
 //        unsigned int uiDataLength = inMetadata.getData<kLibRTMPMetadataMsgLength>();
         unsigned int uiMsgTypeId  = inMetadata.getData<kLibRTMPMetadataMsgTypeId>();
-        unsigned char* pSendBuff  = (unsigned char*)malloc(size);
-        memcpy(pSendBuff, data, size);
         
         m_jobQueue.enqueue([=]() {
             if(_iEndFlag){
+                return;
+            }
+            if((RTMP_PT_AUDIO != uiMsgTypeId) && (RTMP_PT_VIDEO !=  uiMsgTypeId)){
                 return;
             }
             if (0 == _rtmpSession->IsConnected()) {//当前是断线状态
@@ -63,16 +64,30 @@ namespace videocore
                     m_callback(*this, kClientStateNotConnected);
                 }
             }
+        });
+        if (0 == _rtmpSession->IsConnected()) {
+            return;
+        }
+        std::shared_ptr<Buffer> buf = std::make_shared<Buffer>(size);
+        buf->put(const_cast<uint8_t*>(data), size);
+        
+        m_jobQueue.enqueue([=]() {
+            if(_iEndFlag){
+                return;
+            }
+            if((RTMP_PT_AUDIO != uiMsgTypeId) && (RTMP_PT_VIDEO !=  uiMsgTypeId)){
+                return;
+            }
+            unsigned char* pSendData = NULL;
+            buf->read(&pSendData, size);
             
             if(RTMP_PT_AUDIO == uiMsgTypeId){
                 if (0 != _rtmpSession->IsConnected()) {
-                    _rtmpSession->SendAudioRawData((unsigned char*)pSendBuff, (int)size, (unsigned int)ts);
-                    free(pSendBuff);
+                    _rtmpSession->SendAudioRawData(pSendData, (int)size, (unsigned int)ts);
                 }
             }else if (RTMP_PT_VIDEO ==  uiMsgTypeId){
                 if (0 != _rtmpSession->IsConnected()) {
-                    _rtmpSession->SendVideoRawData((unsigned char*)pSendBuff, (int)size, (unsigned int)ts);
-                    free(pSendBuff);
+                    _rtmpSession->SendVideoRawData(pSendData, (int)size, (unsigned int)ts);
                 }
             }
             
