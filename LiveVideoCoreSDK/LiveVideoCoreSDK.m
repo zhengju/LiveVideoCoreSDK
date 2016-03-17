@@ -157,7 +157,7 @@
     NSLog(@"rtmp live state: %i", sessionState);
     LIVE_VCSessionState state = (LIVE_VCSessionState)sessionState;
     
-    [self.delete LiveConnectionStatusChanged:state];
+    [self.delegate LiveConnectionStatusChanged:state];
     
     return;
 }
