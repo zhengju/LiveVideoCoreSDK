@@ -107,8 +107,6 @@
         [previewView addSubview:_livesession.previewView];
         _livesession.previewView.frame = previewView.bounds;
         
-        _livesession.useAdaptiveBitrate = true;
-        
         NSLog(@"rtmpUrl=%@, destination=%@, livename=%@\r\nwidth=%.2f, height=%.2f, bitRate=%lu, frameRate=%lu",
               rtmpUrl.absoluteString, _Dest, _LiveName,
               videSize.width, videSize.height, (unsigned long)iBitRate, (unsigned long)iFrameRate);
