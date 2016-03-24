@@ -26,12 +26,19 @@ namespace videocore
         _iEndFlag = 1;
         m_jobQueue.mark_exiting();
         m_jobQueue.enqueue_sync([]() {});
-        if (0 != _rtmpSession->IsConnected()) {
-            _rtmpSession->DisConnect();
+        
+        if(_rtmpSession->GetConnectedFlag() != 0){
+            if (0 != _rtmpSession->IsConnected()) {
+                _rtmpSession->DisConnect();
+            }
+            if (_rtmpSession) {
+                delete _rtmpSession;
+            }
         }
-        if (_rtmpSession) {
-            delete _rtmpSession;
-        }
+    }
+    
+    int LibRtmpSessionMgr::getConnectFlag(){
+        return _rtmpSession->GetConnectedFlag();
     }
     
     void LibRtmpSessionMgr::pushBuffer(const uint8_t* const data, size_t size, IMetadata& metadata){
@@ -45,27 +52,35 @@ namespace videocore
 //        unsigned int uiDataLength = inMetadata.getData<kLibRTMPMetadataMsgLength>();
         unsigned int uiMsgTypeId  = inMetadata.getData<kLibRTMPMetadataMsgTypeId>();
         
-        m_jobQueue.enqueue([=]() {
-            if(_iEndFlag){
-                return;
-            }
-            if((RTMP_PT_AUDIO != uiMsgTypeId) && (RTMP_PT_VIDEO !=  uiMsgTypeId)){
-                return;
-            }
-            if (0 == _rtmpSession->IsConnected()) {//当前是断线状态
-                _rtmpSession->Connect();//尝试连接
-                if (0 != _rtmpSession->IsConnected()) {//连接成功，上报连接状态
-                    m_callback(*this, kClientStateSessionStarted);
+        if ((0 == _rtmpSession->IsConnected()) && (0 != _rtmpSession->GetConnectedFlag())){
+            _rtmpSession->SetConnectedFlag(FALSE);
+            m_jobQueue.enqueue([=]() {
+                int iFlag = 0;
+                while (!_iEndFlag) {
+                    if (0 == _rtmpSession->IsConnected()) {
+                        _rtmpSession->Connect();
+                    }
+                    if (0 != _rtmpSession->IsConnected()) {
+                        m_callback(*this, kClientStateSessionStarted);
+                        break;
+                    }else{
+                        if (0 == iFlag) {
+                            m_callback(*this, kClientStateHandshake0);
+                        }
+                        iFlag = 1;
+                        for (int iLoop=0; iLoop < 100; iLoop++) {
+                            if (_iEndFlag) {
+                                break;
+                            }
+                            usleep(10);
+                        }
+                    }
                 }
-            }
-            
-            if (0 != _rtmpSession->GetConnectedFlag()) {//当前是连接状态
-                if (0 == _rtmpSession->IsConnected()) {//上报离线状态
-                    m_callback(*this, kClientStateNotConnected);
-                }
-            }
-        });
-        if (0 == _rtmpSession->IsConnected()) {
+            });
+            return;
+        }
+        
+        if ((0 == _rtmpSession->IsConnected()) || (0 == _rtmpSession->GetConnectedFlag())){
             return;
         }
         std::shared_ptr<Buffer> buf = std::make_shared<Buffer>(size);
@@ -80,14 +95,18 @@ namespace videocore
             }
             unsigned char* pSendData = NULL;
             buf->read(&pSendData, size);
-            
+            int iRet = 0;
             if(RTMP_PT_AUDIO == uiMsgTypeId){
                 if (0 != _rtmpSession->IsConnected()) {
-                    _rtmpSession->SendAudioRawData(pSendData, (int)size, (unsigned int)ts);
+                    //printf("SendAudioRawData...\r\n");
+                    iRet = _rtmpSession->SendAudioRawData(pSendData, (int)size, (unsigned int)ts);
+                    //printf("SendAudioRawData return %d\r\n", iRet);
                 }
             }else if (RTMP_PT_VIDEO ==  uiMsgTypeId){
                 if (0 != _rtmpSession->IsConnected()) {
-                    _rtmpSession->SendVideoRawData(pSendData, (int)size, (unsigned int)ts);
+                    //printf("SendVideoRawData...\r\n");
+                    iRet = _rtmpSession->SendVideoRawData(pSendData, (int)size, (unsigned int)ts);
+                    //printf("SendVideoRawData return %d\r\n", iRet);
                 }
             }
             
@@ -105,11 +124,26 @@ namespace videocore
         _audioStereo = parms.getData<kLibRTMPSessionParameterStereo>() ? 2 : 1;
         
         m_jobQueue.enqueue([=]() {
-            if (0 == _rtmpSession->IsConnected()) {
-                _rtmpSession->Connect();
-            }
-            if (0 != _rtmpSession->IsConnected()) {
-                m_callback(*this, kClientStateSessionStarted);
+            int iFlag = 0;
+            while (!_iEndFlag) {
+                if (0 == _rtmpSession->IsConnected()) {
+                    _rtmpSession->Connect();
+                }
+                if (0 != _rtmpSession->IsConnected()) {
+                    m_callback(*this, kClientStateSessionStarted);
+                    break;
+                }else{
+                    if (0 == iFlag) {
+                        m_callback(*this, kClientStateHandshake0);
+                    }
+                    iFlag = 1;
+                    for (int iLoop=0; iLoop < 100; iLoop++) {
+                        if (_iEndFlag) {
+                            break;
+                        }
+                        usleep(10);
+                    }
+                }
             }
         });
     }

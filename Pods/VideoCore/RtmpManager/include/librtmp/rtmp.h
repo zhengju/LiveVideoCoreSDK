@@ -136,7 +136,7 @@ extern "C"
 
   void RTMPPacket_Reset(RTMPPacket *p);
   void RTMPPacket_Dump(RTMPPacket *p);
-  int RTMPPacket_Alloc(RTMPPacket *p, int nSize);
+  int RTMPPacket_Alloc(RTMPPacket *p, uint32_t nSize);
   void RTMPPacket_Free(RTMPPacket *p);
 
 #define RTMPPacket_IsReady(a)	((a)->m_nBytesRead == (a)->m_nBodySize)
@@ -309,9 +309,11 @@ extern "C"
 			int dStart,
 			int dStop, int bLiveStream, long int timeout);
 
+  int RTMP_ConnectEx(RTMP *r, RTMPPacket *cp, long timeout);
   int RTMP_Connect(RTMP *r, RTMPPacket *cp);
   struct sockaddr;
   int RTMP_Connect0(RTMP *r, struct sockaddr *svc);
+  int RTMP_Connect0Ex(RTMP *r, struct sockaddr * service, long timeout);
   int RTMP_Connect1(RTMP *r, RTMPPacket *cp);
   int RTMP_Serve(RTMP *r);
   int RTMP_TLS_Accept(RTMP *r, void *ctx);

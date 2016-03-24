@@ -19,6 +19,9 @@
 #define DATA_ITEMS_MAX_COUNT 100
 #define RTMP_DATA_RESERVE_SIZE 400
 
+#define RTMP_CONNECTION_TIMEOUT 2000
+#define RTMP_RECEIVE_TIMEOUT    3
+
 typedef struct _DataItem
 {
     char* data;
@@ -55,30 +58,34 @@ LibRtmpSession::LibRtmpSession(char* szRtmpUrl):_pRtmp(NULL)
     _pAdtsItems = (DataItem*)malloc(sizeof(DataItem)*DATA_ITEMS_MAX_COUNT);
     _pNaluItems = (DataItem*)malloc(sizeof(DataItem)*DATA_ITEMS_MAX_COUNT);
     _pMetaData = (RTMPMetadata*)malloc(sizeof(RTMPMetadata));
-    pthread_mutex_init(&_mConnstatMutex,NULL);
+    //pthread_mutex_init(&_mConnstatMutex,NULL);
 }
 
 LibRtmpSession::~LibRtmpSession(){
-    DisConnect();
-    if (_pRtmp) {
-        free(_pRtmp);
+    if(_iConnectFlag != 0) {
+        DisConnect();
+        if (_pRtmp) {
+            free(_pRtmp);
+        }
+        if (_pAdtsItems) {
+            free(_pAdtsItems);
+        }
+        if (_pNaluItems) {
+            free(_pNaluItems);
+        }
+        if (_pMetaData) {
+            free(_pMetaData);
+        }
     }
-    if (_pAdtsItems) {
-        free(_pAdtsItems);
-    }
-    if (_pNaluItems) {
-        free(_pNaluItems);
-    }
-    if (_pMetaData) {
-        free(_pMetaData);
-    }
+
     //pthread_mutex_destroy(&_mConnstatMutex);
 }
 
 int LibRtmpSession::Connect(){
     int iRet = 0;
+    _iConnectFlag = 0;
     
-    if (0 == pthread_mutex_trylock(&_mConnstatMutex)) {
+    //if (0 == pthread_mutex_trylock(&_mConnstatMutex)) {
     if (_pRtmp) {
         free(_pRtmp);
         _pRtmp = NULL;
@@ -94,7 +101,7 @@ int LibRtmpSession::Connect(){
             free(_pRtmp);
             _pRtmp = NULL;
             iRet = -1;
-            pthread_mutex_unlock(&_mConnstatMutex);
+            //pthread_mutex_unlock(&_mConnstatMutex);
             return iRet;
         }
     }
@@ -104,19 +111,19 @@ int LibRtmpSession::Connect(){
         iRet = -2;
         free(_pRtmp);
         _pRtmp = NULL;
-        pthread_mutex_unlock(&_mConnstatMutex);
+        //pthread_mutex_unlock(&_mConnstatMutex);
         return iRet;
     }
     
     RTMP_EnableWrite(_pRtmp);
-    
-    if (RTMP_Connect(_pRtmp, NULL) == FALSE)
+    _pRtmp->Link.timeout = RTMP_RECEIVE_TIMEOUT;
+    if (RTMP_ConnectEx(_pRtmp, NULL, RTMP_CONNECTION_TIMEOUT) == FALSE)
     {
         RTMP_Close(_pRtmp);
         RTMP_Free(_pRtmp);
         _pRtmp = NULL;
         iRet = -3;
-        pthread_mutex_unlock(&_mConnstatMutex);
+        //pthread_mutex_unlock(&_mConnstatMutex);
         return iRet;
     }
     
@@ -126,19 +133,19 @@ int LibRtmpSession::Connect(){
         RTMP_Free(_pRtmp);
         _pRtmp = NULL;
         iRet = -4;
-        pthread_mutex_unlock(&_mConnstatMutex);
+        //pthread_mutex_unlock(&_mConnstatMutex);
         return iRet;
     }
     _iConnectFlag = 1;
     _iMetaDataFlag = 0;
     
-    pthread_mutex_unlock(&_mConnstatMutex);
-    }
+    //pthread_mutex_unlock(&_mConnstatMutex);
+    //}
     return iRet;
 }
 
 void LibRtmpSession::DisConnect(){
-    pthread_mutex_lock(&_mConnstatMutex);
+    //pthread_mutex_lock(&_mConnstatMutex);
     if(_pRtmp)
     {
         RTMP_Close(_pRtmp);
@@ -149,7 +156,7 @@ void LibRtmpSession::DisConnect(){
         _iConnectFlag  = 0;
         _iMetaDataFlag = 0;
     }
-    pthread_mutex_unlock(&_mConnstatMutex);
+    //pthread_mutex_unlock(&_mConnstatMutex);
 }
 
 int LibRtmpSession::IsConnected(){
@@ -157,9 +164,9 @@ int LibRtmpSession::IsConnected(){
     if(_pRtmp == NULL){
         return 0;
     }
-    pthread_mutex_lock(&_mConnstatMutex);
+    //pthread_mutex_lock(&_mConnstatMutex);
     int iRet = RTMP_IsConnected(_pRtmp);
-    pthread_mutex_unlock(&_mConnstatMutex);
+    //pthread_mutex_unlock(&_mConnstatMutex);
     return iRet;
 }
 

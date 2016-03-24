@@ -1,12 +1,9 @@
 /* opensslconf.h */
 /* WARNING: Generated automatically from opensslconf.h.in by Configure. */
 
-#ifdef  __cplusplus
-extern "C" {
-#endif
 /* OpenSSL was configured with the following options: */
-#ifndef OPENSSL_SYSNAME_MACOSX
-# define OPENSSL_SYSNAME_MACOSX
+#ifndef OPENSSL_SYSNAME_iOS
+# define OPENSSL_SYSNAME_iOS
 #endif
 #ifndef OPENSSL_DOING_MAKEDEPEND
 
@@ -23,9 +20,6 @@ extern "C" {
 #ifndef OPENSSL_NO_KRB5
 # define OPENSSL_NO_KRB5
 #endif
-#ifndef OPENSSL_NO_LIBUNBOUND
-# define OPENSSL_NO_LIBUNBOUND
-#endif
 #ifndef OPENSSL_NO_MD2
 # define OPENSSL_NO_MD2
 #endif
@@ -38,29 +32,14 @@ extern "C" {
 #ifndef OPENSSL_NO_SCTP
 # define OPENSSL_NO_SCTP
 #endif
-#ifndef OPENSSL_NO_SSL_TRACE
-# define OPENSSL_NO_SSL_TRACE
-#endif
-#ifndef OPENSSL_NO_SSL2
-# define OPENSSL_NO_SSL2
-#endif
 #ifndef OPENSSL_NO_STORE
 # define OPENSSL_NO_STORE
-#endif
-#ifndef OPENSSL_NO_UNIT_TEST
-# define OPENSSL_NO_UNIT_TEST
-#endif
-#ifndef OPENSSL_NO_WEAK_SSL_CIPHERS
-# define OPENSSL_NO_WEAK_SSL_CIPHERS
 #endif
 
 #endif /* OPENSSL_DOING_MAKEDEPEND */
 
 #ifndef OPENSSL_THREADS
 # define OPENSSL_THREADS
-#endif
-#ifndef OPENSSL_NO_ASM
-# define OPENSSL_NO_ASM
 #endif
 #ifndef OPENSSL_NO_DYNAMIC_ENGINE
 # define OPENSSL_NO_DYNAMIC_ENGINE
@@ -83,9 +62,6 @@ extern "C" {
 # if defined(OPENSSL_NO_KRB5) && !defined(NO_KRB5)
 #  define NO_KRB5
 # endif
-# if defined(OPENSSL_NO_LIBUNBOUND) && !defined(NO_LIBUNBOUND)
-#  define NO_LIBUNBOUND
-# endif
 # if defined(OPENSSL_NO_MD2) && !defined(NO_MD2)
 #  define NO_MD2
 # endif
@@ -98,20 +74,8 @@ extern "C" {
 # if defined(OPENSSL_NO_SCTP) && !defined(NO_SCTP)
 #  define NO_SCTP
 # endif
-# if defined(OPENSSL_NO_SSL_TRACE) && !defined(NO_SSL_TRACE)
-#  define NO_SSL_TRACE
-# endif
-# if defined(OPENSSL_NO_SSL2) && !defined(NO_SSL2)
-#  define NO_SSL2
-# endif
 # if defined(OPENSSL_NO_STORE) && !defined(NO_STORE)
 #  define NO_STORE
-# endif
-# if defined(OPENSSL_NO_UNIT_TEST) && !defined(NO_UNIT_TEST)
-#  define NO_UNIT_TEST
-# endif
-# if defined(OPENSSL_NO_WEAK_SSL_CIPHERS) && !defined(NO_WEAK_SSL_CIPHERS)
-#  define NO_WEAK_SSL_CIPHERS
 # endif
 #endif
 
@@ -122,8 +86,8 @@ extern "C" {
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/Users/Alex/Documents/code/IOS_code_from_github/OpenSSL-for-iPhone-master/bin/iPhoneSimulator9.2-x86_64.sdk/lib/engines"
-#define OPENSSLDIR "/Users/Alex/Documents/code/IOS_code_from_github/OpenSSL-for-iPhone-master/bin/iPhoneSimulator9.2-x86_64.sdk"
+#define ENGINESDIR "/Users/kaola/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk/lib/engines"
+#define OPENSSLDIR "/Users/kaola/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk"
 #endif
 #endif
 
@@ -154,7 +118,7 @@ extern "C" {
  * - Intel P6 because partial register stalls are very expensive;
  * - elder Alpha because it lacks byte load/store instructions;
  */
-#define RC4_INT unsigned int
+#define RC4_INT unsigned char
 #endif
 #if !defined(RC4_CHUNK)
 /*
@@ -169,20 +133,20 @@ extern "C" {
 /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
  * %20 speed up (longs are 8 bytes, int's are 4). */
 #ifndef DES_LONG
-#define DES_LONG unsigned int
+#define DES_LONG unsigned long
 #endif
 #endif
 
 #if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
 #define CONFIG_HEADER_BN_H
-#undef BN_LLONG
+#define BN_LLONG
 
 /* Should we define BN_DIV2W here? */
 
 /* Only one for the following should be defined */
-#define SIXTY_FOUR_BIT_LONG
+#undef SIXTY_FOUR_BIT_LONG
 #undef SIXTY_FOUR_BIT
-#undef THIRTY_TWO_BIT
+#define THIRTY_TWO_BIT
 #endif
 
 #if defined(HEADER_RC4_LOCL_H) && !defined(CONFIG_HEADER_RC4_LOCL_H)
@@ -194,7 +158,7 @@ extern "C" {
 
 #if defined(HEADER_BF_LOCL_H) && !defined(CONFIG_HEADER_BF_LOCL_H)
 #define CONFIG_HEADER_BF_LOCL_H
-#undef BF_PTR
+#define BF_PTR
 #endif /* HEADER_BF_LOCL_H */
 
 #if defined(HEADER_DES_LOCL_H) && !defined(CONFIG_HEADER_DES_LOCL_H)
@@ -218,7 +182,7 @@ extern "C" {
 #endif
 
 #if defined(DES_RISC1) && defined(DES_RISC2)
-#error YOU SHOULD NOT HAVE BOTH DES_RISC1 AND DES_RISC2 DEFINED!!!!!
+YOU SHOULD NOT HAVE BOTH DES_RISC1 AND DES_RISC2 DEFINED!!!!!
 #endif
 
 /* Unroll the inner loop, this sometimes helps, sometimes hinders.
@@ -237,7 +201,7 @@ extern "C" {
    optimization options.  Older Sparc's work better with only UNROLL, but
    there's no way to tell at compile time what it is you're running on */
  
-#if defined( __sun ) || defined ( sun )		/* Newer Sparc's */
+#if defined( sun )		/* Newer Sparc's */
 #  define DES_PTR
 #  define DES_RISC1
 #  define DES_UNROLL
@@ -269,6 +233,3 @@ extern "C" {
 
 #endif /* DES_DEFAULT_OPTIONS */
 #endif /* HEADER_DES_LOCL_H */
-#ifdef  __cplusplus
-}
-#endif

@@ -63,7 +63,7 @@ namespace videocore
         
     public:
         virtual void pushBuffer(const uint8_t* const data, size_t size, IMetadata& metadata);
-        
+        virtual int getConnectFlag();
         void setSessionParameters(IMetadata& parameters);
         void setBandwidthCallback(BandwidthCallback callback);
     private:

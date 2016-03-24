@@ -30,16 +30,17 @@ public:
     void DisConnect();
     int IsConnected();
     
-    int SendAudioSpecificConfig(int aactype, int sampleRate, int channels);
-    int SendAudioData(unsigned char* buf, int size);
     int SendAudioRawData(unsigned char* pBuff, int len, unsigned int ts);
     
-    int SendVideoData(unsigned char* buf, int size);
     int SendVideoRawData(unsigned char* buf, int videodatalen, unsigned int ts);
     int GetConnectedFlag(){return  _iConnectFlag;};
+    void SetConnectedFlag(int iConnectFlag){_iConnectFlag=iConnectFlag;};
 private:
     LibRtmpSession();
     void MakeAudioSpecificConfig(char* pData, int aactype, int sampleRate, int channels);
+    int SendAudioSpecificConfig(int aactype, int sampleRate, int channels);
+    int SendAudioData(unsigned char* buf, int size);
+    int SendVideoData(unsigned char* buf, int size);
     
     int RtmpPacketSend(RTMPPacket* packet);
     int SendPacket(unsigned int nPacketType,unsigned char *data,unsigned int size,unsigned int nTimestamp);
@@ -62,7 +63,7 @@ private:
     unsigned int _uiAudioDTSNoChangeCnt;
     
     RTMPMetadata* _pMetaData;
-    pthread_mutex_t _mConnstatMutex;
+    //pthread_mutex_t _mConnstatMutex;
 };
 #ifdef __cplusplus
 }

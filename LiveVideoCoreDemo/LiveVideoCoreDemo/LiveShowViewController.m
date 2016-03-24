@@ -88,7 +88,7 @@
 
 -(void) RtmpInit{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_CIF BitRate:LIVE_BITRATE_500Kbps FrameRate:LIVE_FRAMERATE_20];
+        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_D1 BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_FRAMERATE_20];
         [LiveVideoCoreSDK sharedinstance].delegate = self;
         
         [[LiveVideoCoreSDK sharedinstance] connect];
@@ -172,6 +172,7 @@
 -(void) OnExitClicked:(id)sender{
     NSLog(@"Rtmp[%@] is ended", self.RtmpUrl);
     [[LiveVideoCoreSDK sharedinstance] disconnect];
+    [[LiveVideoCoreSDK sharedinstance] LiveRelease];
     [self dismissModalViewControllerAnimated:YES];
 }
 

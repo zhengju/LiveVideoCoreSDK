@@ -538,6 +538,9 @@ namespace videocore { namespace simpleApi {
                                                               case kClientStateConnected:
                                                                   self.rtmpSessionState = VCSessionStateStarting;
                                                                   break;
+                                                              case kClientStateHandshake0:
+                                                                  self.rtmpSessionState = VCSessionStatePreviewStarted;
+                                                                  break;
                                                               case kClientStateSessionStarted:
                                                               {
 
