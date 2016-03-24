@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		081ED9200B2E006EF59B0880 /* libPods-LiveVideoCoreSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A6D891805FBBFEB1233DC3 /* libPods-LiveVideoCoreSDK.a */; };
 		B7827FF31C8685AE0057E507 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7827FF21C8685AE0057E507 /* CoreVideo.framework */; };
 		B7827FF51C8685BC0057E507 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7827FF41C8685BC0057E507 /* VideoToolbox.framework */; };
 		B7827FF71C8685C90057E507 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7827FF61C8685C90057E507 /* OpenGLES.framework */; };
@@ -17,7 +16,7 @@
 		B7827FFF1C8685FA0057E507 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7827FFE1C8685FA0057E507 /* CFNetwork.framework */; };
 		B78280011C8686070057E507 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280001C8686070057E507 /* AudioToolbox.framework */; };
 		B78280031C86861A0057E507 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78280021C86861A0057E507 /* AVFoundation.framework */; };
-		B7A2C3101C926D8000A9F4C1 /* libVideoCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */; };
+		B7BBA85A1CA3D6FF00D05AEF /* libRtmpLivePushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BBA8591CA3D6FF00D05AEF /* libRtmpLivePushSDK.a */; };
 		B7CE54411C867E0E00437FF2 /* LiveVideoCoreSDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7CE54401C867E0E00437FF2 /* LiveVideoCoreSDK.h */; };
 		B7CE54431C867E0E00437FF2 /* LiveVideoCoreSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CE54421C867E0E00437FF2 /* LiveVideoCoreSDK.m */; };
 /* End PBXBuildFile section */
@@ -36,7 +35,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		50189B312EC354A242A44563 /* Pods-LiveVideoCoreSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiveVideoCoreSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LiveVideoCoreSDK/Pods-LiveVideoCoreSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		B7827FF21C8685AE0057E507 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		B7827FF41C8685BC0057E507 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		B7827FF61C8685C90057E507 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -46,12 +44,10 @@
 		B7827FFE1C8685FA0057E507 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B78280001C8686070057E507 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B78280021C86861A0057E507 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVideoCore.a; path = "Pods/../build/Debug-iphoneos/VideoCore/libVideoCore.a"; sourceTree = "<group>"; };
+		B7BBA8591CA3D6FF00D05AEF /* libRtmpLivePushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRtmpLivePushSDK.a; path = "../../../Library/Developer/Xcode/DerivedData/LiveVideoCoreSDK-eaoztpuspaivptbkhvageukafdry/Build/Products/Debug-iphoneos/libRtmpLivePushSDK.a"; sourceTree = "<group>"; };
 		B7CE543D1C867E0E00437FF2 /* libLiveVideoCoreSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLiveVideoCoreSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CE54401C867E0E00437FF2 /* LiveVideoCoreSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoCoreSDK.h; sourceTree = "<group>"; };
 		B7CE54421C867E0E00437FF2 /* LiveVideoCoreSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoCoreSDK.m; sourceTree = "<group>"; };
-		CDB0D307521A8C72761EA996 /* Pods-LiveVideoCoreSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiveVideoCoreSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-LiveVideoCoreSDK/Pods-LiveVideoCoreSDK.release.xcconfig"; sourceTree = "<group>"; };
-		F7A6D891805FBBFEB1233DC3 /* libPods-LiveVideoCoreSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LiveVideoCoreSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7A2C3101C926D8000A9F4C1 /* libVideoCore.a in Frameworks */,
+				B7BBA85A1CA3D6FF00D05AEF /* libRtmpLivePushSDK.a in Frameworks */,
 				B78280031C86861A0057E507 /* AVFoundation.framework in Frameworks */,
 				B78280011C8686070057E507 /* AudioToolbox.framework in Frameworks */,
 				B7827FFF1C8685FA0057E507 /* CFNetwork.framework in Frameworks */,
@@ -69,28 +65,17 @@
 				B7827FF71C8685C90057E507 /* OpenGLES.framework in Frameworks */,
 				B7827FF51C8685BC0057E507 /* VideoToolbox.framework in Frameworks */,
 				B7827FF31C8685AE0057E507 /* CoreVideo.framework in Frameworks */,
-				081ED9200B2E006EF59B0880 /* libPods-LiveVideoCoreSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7A9C591AA40E3EAD05AF30AA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				50189B312EC354A242A44563 /* Pods-LiveVideoCoreSDK.debug.xcconfig */,
-				CDB0D307521A8C72761EA996 /* Pods-LiveVideoCoreSDK.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		B7CE54341C867E0E00437FF2 = {
 			isa = PBXGroup;
 			children = (
 				B7CE543F1C867E0E00437FF2 /* LiveVideoCoreSDK */,
 				B7CE543E1C867E0E00437FF2 /* Products */,
-				7A9C591AA40E3EAD05AF30AA /* Pods */,
 				D99D2EB03AFBAA9009BC5FAE /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -115,7 +100,7 @@
 		D99D2EB03AFBAA9009BC5FAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7A2C30F1C926D8000A9F4C1 /* libVideoCore.a */,
+				B7BBA8591CA3D6FF00D05AEF /* libRtmpLivePushSDK.a */,
 				B78280021C86861A0057E507 /* AVFoundation.framework */,
 				B78280001C8686070057E507 /* AudioToolbox.framework */,
 				B7827FFE1C8685FA0057E507 /* CFNetwork.framework */,
@@ -125,7 +110,6 @@
 				B7827FF61C8685C90057E507 /* OpenGLES.framework */,
 				B7827FF41C8685BC0057E507 /* VideoToolbox.framework */,
 				B7827FF21C8685AE0057E507 /* CoreVideo.framework */,
-				F7A6D891805FBBFEB1233DC3 /* libPods-LiveVideoCoreSDK.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -137,11 +121,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B7CE54461C867E0E00437FF2 /* Build configuration list for PBXNativeTarget "LiveVideoCoreSDK" */;
 			buildPhases = (
-				087E976A814CD08C25EE4E2D /* Check Pods Manifest.lock */,
 				B7CE54391C867E0E00437FF2 /* Sources */,
 				B7CE543A1C867E0E00437FF2 /* Frameworks */,
 				B7CE543B1C867E0E00437FF2 /* CopyFiles */,
-				38F5C68B2E96650FDF6289B2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -182,39 +164,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		087E976A814CD08C25EE4E2D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		38F5C68B2E96650FDF6289B2 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LiveVideoCoreSDK/Pods-LiveVideoCoreSDK-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B7CE54391C867E0E00437FF2 /* Sources */ = {
@@ -310,22 +259,21 @@
 		};
 		B7CE54471C867E0E00437FF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 50189B312EC354A242A44563 /* Pods-LiveVideoCoreSDK.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"${PODS_ROOT}/boost",
-					"\"${PODS_ROOT}/boost\"",
+					../RtmpLivePushSDK/boost,
+					"\"../RtmpLivePushSDK/boost\"",
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/UriParser-cpp\"",
-					"\"${PODS_ROOT}/Headers/Public/VideoCore\"",
-					"\"${PODS_ROOT}/Headers/Public/boost\"",
-					"\"${PODS_ROOT}/Headers/Public/glm\"",
-					"$(PODS_ROOT)/UriParser-cpp",
-					"\"${PODS_ROOT}/glm\"",
-					"$(PODS_ROOT)/VideoCore",
-					"$(PODS_ROOT)/VideoCore/api/IOS",
+					"\"../RtmpLivePushSDK/Headers/Public\"",
+					"\"../RtmpLivePushSDK/Headers/Public/UriParser-cpp\"",
+					"\"../RtmpLivePushSDK/Headers/Public/VideoCore\"",
+					"\"../RtmpLivePushSDK/Headers/Public/boost\"",
+					"\"../RtmpLivePushSDK/Headers/Public/glm\"",
+					"../RtmpLivePushSDK/UriParser-cpp",
+					"\"../RtmpLivePushSDK/glm\"",
+					../RtmpLivePushSDK/VideoCore,
+					../RtmpLivePushSDK/VideoCore/api/IOS,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -340,22 +288,21 @@
 		};
 		B7CE54481C867E0E00437FF2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CDB0D307521A8C72761EA996 /* Pods-LiveVideoCoreSDK.release.xcconfig */;
 			buildSettings = {
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"${PODS_ROOT}/boost",
-					"\"${PODS_ROOT}/boost\"",
+					../RtmpLivePushSDK/boost,
+					"\"../RtmpLivePushSDK/boost\"",
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/UriParser-cpp\"",
-					"\"${PODS_ROOT}/Headers/Public/VideoCore\"",
-					"\"${PODS_ROOT}/Headers/Public/boost\"",
-					"\"${PODS_ROOT}/Headers/Public/glm\"",
-					"$(PODS_ROOT)/UriParser-cpp",
-					"\"${PODS_ROOT}/glm\"",
-					"$(PODS_ROOT)/VideoCore",
-					"$(PODS_ROOT)/VideoCore/api/IOS",
+					"\"../RtmpLivePushSDK/Headers/Public\"",
+					"\"../RtmpLivePushSDK/Headers/Public/UriParser-cpp\"",
+					"\"../RtmpLivePushSDK/Headers/Public/VideoCore\"",
+					"\"../RtmpLivePushSDK/Headers/Public/boost\"",
+					"\"../RtmpLivePushSDK/Headers/Public/glm\"",
+					"../RtmpLivePushSDK/UriParser-cpp",
+					"\"../RtmpLivePushSDK/glm\"",
+					../RtmpLivePushSDK/VideoCore,
+					../RtmpLivePushSDK/VideoCore/api/IOS,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

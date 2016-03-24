@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import "VCSimpleSession.h"
+#import "../RtmpLivePushSDK/VideoCore/api/IOS/VCSimpleSession.h"
 
 #define LIVE_VIDEO_DEF_WIDTH  360
 #define LIVE_VIDEO_DEF_HEIGHT 640

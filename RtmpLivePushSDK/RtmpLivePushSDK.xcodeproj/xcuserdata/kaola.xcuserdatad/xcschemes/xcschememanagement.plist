@@ -4,25 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>LiveVideoCoreDemo.xcscheme</key>
+		<key>RtmpLivePushSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>B782800E1C86C95E0057E507</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B78280271C86C95E0057E507</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B78280321C86C95E0057E507</key>
+		<key>B7BB88041CA3BA7D00D05AEF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
