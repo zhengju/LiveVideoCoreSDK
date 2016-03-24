@@ -163,10 +163,10 @@
 - (void)setCameraFront:(Boolean)bCameraFrontFlag {
     if (!bCameraFrontFlag) {
         _livesession.cameraState = VCCameraStateBack;
-        _ShowPreview.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        //_ShowPreview.transform = CGAffineTransformMakeScale(1.0, 1.0);
     } else {
         _livesession.cameraState = VCCameraStateFront;
-        _ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        //_ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
     }
 }
 
