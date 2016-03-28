@@ -32,6 +32,32 @@ class LibRtmpSession;
 
 namespace videocore
 {
+    typedef struct _RTMP_QUEUE_ITEM{
+        unsigned long ulLength;
+        unsigned int  uiType;
+        unsigned int  uiTimestamp;
+        unsigned char* pRtmpBody;
+    }RTMP_QUEUE_ITEM;
+    
+    class RTMP_Queue_Manager{
+    public:
+        RTMP_Queue_Manager();
+        RTMP_Queue_Manager(int iMaxQueueLength);
+        ~RTMP_Queue_Manager();
+        int InsertQueue(unsigned int uiType,
+                        unsigned int uiLength,
+                        unsigned int uiTimestamp,
+                        unsigned char* pData);
+        RTMP_QUEUE_ITEM* ReadQueueAndRelease();
+        
+        void CleanQueue();
+        unsigned int GetQueueLength();
+    private:
+        int _iMaxQueueLength;
+        std::queue<RTMP_QUEUE_ITEM*> _sendDataQueue;
+        pthread_mutex_t _mConnstatMutex;
+    };
+    
     typedef MetaData<'rtmp', int32_t, int32_t, double, int32_t, double, bool> LibRTMPSessionParameters_t;
     enum {
         kLibRTMPSessionParameterWidth=0,
@@ -79,6 +105,9 @@ namespace videocore
         int    _audioStereo;
         
         JobQueue            m_jobQueue;
+        JobQueue            m_sendQueue;
+        
+        RTMP_Queue_Manager _rtmpSendQueueManager;
         int _iEndFlag;
     };
 }
