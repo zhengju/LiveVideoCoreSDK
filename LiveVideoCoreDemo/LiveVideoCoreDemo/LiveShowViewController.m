@@ -17,6 +17,7 @@
     UIButton* _FilterButton;
     UIButton* _CameraChangeButton;
     XMNShareView* _FilterMenu;
+    ASValueTrackingSlider* _MicSlider;
     
     Boolean _bCameraFrontFlag;
 }
@@ -84,16 +85,35 @@
     _CameraChangeButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:11];
     [_CameraChangeButton addTarget:self action:@selector(OnCameraChangeClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_CameraChangeButton];
+    
+    float fMicSliderX = 20;
+    float fMicSliderY = fCameraChangeButtonY - fCameraChangeButtonH - 10;
+    float fMicSliderW = fScreenW - fMicSliderX*2;
+    float fMicSliderH = 30;
+    _MicSlider = [[ASValueTrackingSlider alloc] initWithFrame:CGRectMake(fMicSliderX, fMicSliderY, fMicSliderW, fMicSliderH)];
+    _MicSlider.maximumValue = 10.0;
+    _MicSlider.popUpViewCornerRadius = 4;
+    [_MicSlider setMaxFractionDigitsDisplayed:0];
+    _MicSlider.popUpViewColor = [UIColor colorWithHue:0.55 saturation:0.8 brightness:0.9 alpha:0.7];
+    _MicSlider.font = [UIFont fontWithName:@"GillSans-Bold" size:18];
+    _MicSlider.textColor = [UIColor colorWithHue:0.55 saturation:1.0 brightness:0.5 alpha:1];
+    _MicSlider.popUpViewWidthPaddingFactor = 1.7;
+    _MicSlider.delegate = self;
+    _MicSlider.dataSource = self;
+    _MicSlider.value = 5;
+    [self.view addSubview:_MicSlider];
 }
 
 -(void) RtmpInit{
     dispatch_async(dispatch_get_main_queue(), ^{
         [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_D1 BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_FRAMERATE_20];
         [LiveVideoCoreSDK sharedinstance].delegate = self;
-        
         [[LiveVideoCoreSDK sharedinstance] connect];
         NSLog(@"Rtmp[%@] is connecting", self.RtmpUrl);
         
+        [LiveVideoCoreSDK sharedinstance].micGain = 5;
+
+        [self.view addSubview:_MicSlider];
         [self.view addSubview:_ExitButton];
         [self.view addSubview:_RtmpStatusLabel];
         [self.view addSubview:_FilterButton];
@@ -185,6 +205,60 @@
     
     _bCameraFrontFlag = false;
 }
+- (void) viewWillAppear:(BOOL)animated{
+    NSLog(@"CameraViewController: viewWillAppear");
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WillResignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WillDidBecomeActiveNotification) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundNotification) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    [super viewDidAppear:YES];
+}
+
+- (void) appWillEnterForegroundNotification{
+    NSLog(@"trigger event when will enter foreground.");
+    [self RtmpInit];
+
+}
+- (void)WillDidBecomeActiveNotification{
+    NSLog(@"CameraViewController: WillDidBecomeActiveNotification");
+
+}
+
+- (void)WillResignActiveNotification{
+    NSLog(@"LiveShowViewController: WillResignActiveNotification");
+    
+
+    //得到当前应用程序的UIApplication对象
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    //一个后台任务标识符
+    UIBackgroundTaskIdentifier taskID;
+    taskID = [app beginBackgroundTaskWithExpirationHandler:^{
+        //如果系统觉得我们还是运行了太久，将执行这个程序块，并停止运行应用程序
+        [app endBackgroundTask:taskID];
+    }];
+    //UIBackgroundTaskInvalid表示系统没有为我们提供额外的时候
+    if (taskID == UIBackgroundTaskInvalid) {
+        NSLog(@"Failed to start background task!");
+        return;
+    }
+    
+    //[[SCCaptureManager sharedManager] disconnect];
+    [[LiveVideoCoreSDK sharedinstance] disconnect];
+    [[LiveVideoCoreSDK sharedinstance] LiveRelease];
+    
+    //告诉系统我们完成了
+    [app endBackgroundTask:taskID];
+}
+
+-(void) viewDidDisappear:(BOOL)animated{
+    NSLog(@"CameraViewController: viewDidDisappear");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];//删除去激活界面的回调
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];//删除激活界面的回调
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -214,6 +288,25 @@
                 break;
         }
     });
+}
+
+- (NSString *)slider:(ASValueTrackingSlider *)slider stringForValue:(float)value{
+    if (slider == _MicSlider) {
+        float fMicGain = value/10.0;
+        NSLog(@"mic slider:%0.2f, %0.2f", value, fMicGain);
+        [LiveVideoCoreSDK sharedinstance].micGain = fMicGain;
+    }
+    
+    return nil;
+}
+
+- (void)sliderWillDisplayPopUpView:(ASValueTrackingSlider *)slider{
+    NSLog(@"sliderWillDisplayPopUpView...");
+    return;
+}
+
+- (void)sliderWillHidePopUpView:(ASValueTrackingSlider *)slider{
+    NSLog(@"sliderWillHidePopUpView...");
 }
 
 @end

@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, LIVE_FILTER_TYPE) {
 + (instancetype)sharedinstance;
 
 @property (atomic, weak)   id<LIVEVCSessionDelegate> delegate;
+@property (atomic, assign) float micGain;//0~1.0
 
 - (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView;
 - (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView VideSize:(CGSize)videSize BitRate:(LIVE_BITRATE)iBitRate FrameRate:(LIVE_FRAMERATE)iFrameRate;

@@ -15,7 +15,11 @@
     NSString* _Dest;
     NSString* _LiveName;
     UIView* _ShowPreview;
+    float _micGain;
 }
+
+@dynamic micGain;
+
 + (instancetype)sharedinstance {
     static LiveVideoCoreSDK *s_instance;
     static dispatch_once_t onceToken;
@@ -148,6 +152,14 @@
         default:
             break;
     }
+}
+
+-(void) setMicGain:(float)micGain{
+    _livesession.micGain = micGain;
+}
+
+-(float) micGain{
+    return _livesession.micGain;
 }
 
 //delegate operation

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "LiveVideoCoreSDK.h"
+#import "ASValueTrackingSlider.h"
 
-@interface LiveShowViewController : UIViewController<LIVEVCSessionDelegate>
+@interface LiveShowViewController : UIViewController<LIVEVCSessionDelegate, ASValueTrackingSliderDataSource, ASValueTrackingSliderDelegate>
 
 @property (atomic, copy) NSURL* RtmpUrl;
 
