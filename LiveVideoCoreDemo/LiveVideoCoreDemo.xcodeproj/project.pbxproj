@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B73752F01CAA5630007FBCA0 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = B73752ED1CAA5630007FBCA0 /* ASValuePopUpView.m */; };
 		B73752F11CAA5630007FBCA0 /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B73752EF1CAA5630007FBCA0 /* ASValueTrackingSlider.m */; };
+		B73752F51CAA8688007FBCA0 /* ZJSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = B73752F41CAA8688007FBCA0 /* ZJSwitch.m */; };
 		B78280141C86C95E0057E507 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280131C86C95E0057E507 /* main.m */; };
 		B78280171C86C95E0057E507 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280161C86C95E0057E507 /* AppDelegate.m */; };
 		B782801A1C86C95E0057E507 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78280191C86C95E0057E507 /* ViewController.m */; };
@@ -53,6 +54,8 @@
 		B73752ED1CAA5630007FBCA0 /* ASValuePopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValuePopUpView.m; sourceTree = "<group>"; };
 		B73752EE1CAA5630007FBCA0 /* ASValueTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValueTrackingSlider.h; sourceTree = "<group>"; };
 		B73752EF1CAA5630007FBCA0 /* ASValueTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValueTrackingSlider.m; sourceTree = "<group>"; };
+		B73752F31CAA8688007FBCA0 /* ZJSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJSwitch.h; sourceTree = "<group>"; };
+		B73752F41CAA8688007FBCA0 /* ZJSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJSwitch.m; sourceTree = "<group>"; };
 		B782800F1C86C95E0057E507 /* LiveVideoCoreDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveVideoCoreDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78280131C86C95E0057E507 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B78280151C86C95E0057E507 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -132,6 +135,15 @@
 			path = ASValueTrackingSlider;
 			sourceTree = "<group>";
 		};
+		B73752F21CAA8675007FBCA0 /* ZJSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				B73752F31CAA8688007FBCA0 /* ZJSwitch.h */,
+				B73752F41CAA8688007FBCA0 /* ZJSwitch.m */,
+			);
+			name = ZJSwitch;
+			sourceTree = "<group>";
+		};
 		B78280061C86C95E0057E507 = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +168,7 @@
 		B78280111C86C95E0057E507 /* LiveVideoCoreDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B73752F21CAA8675007FBCA0 /* ZJSwitch */,
 				B73752EB1CAA5630007FBCA0 /* ASValueTrackingSlider */,
 				B78280651C86E7F90057E507 /* XMNShareMenu */,
 				B78280151C86C95E0057E507 /* AppDelegate.h */,
@@ -362,6 +375,7 @@
 				B782801A1C86C95E0057E507 /* ViewController.m in Sources */,
 				B78280171C86C95E0057E507 /* AppDelegate.m in Sources */,
 				B782806B1C86E7F90057E507 /* XMNShareScrollView.m in Sources */,
+				B73752F51CAA8688007FBCA0 /* ZJSwitch.m in Sources */,
 				B73752F01CAA5630007FBCA0 /* ASValuePopUpView.m in Sources */,
 				B78280141C86C95E0057E507 /* main.m in Sources */,
 				B78280471C86CA160057E507 /* LiveShowViewController.m in Sources */,

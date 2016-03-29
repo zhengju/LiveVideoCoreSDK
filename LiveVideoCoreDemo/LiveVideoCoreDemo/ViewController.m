@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "LiveShowViewController.h"
+#import "ZJSwitch.h"
 
 @interface ViewController ()
 
@@ -16,12 +17,26 @@
 @implementation ViewController
 {
     LiveShowViewController* _LiveShowViewController;
+    UILabel* _horizontalLabel;
+    ZJSwitch* _horizontalSwitch;
     UITextField* _RtmpUrlTextField;
     UIButton* _StartButton;
 }
 
 -(void) UIInit{
     double fScreenW = [UIScreen mainScreen].bounds.size.width;
+    
+    _horizontalLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 55, 30)];
+    _horizontalLabel.text = @"横屏拍摄:";
+    _horizontalLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
+    [self.view addSubview: _horizontalLabel];
+    
+    float fhorizontalSwitchX = 10 + 55 + 5;
+    float fhorizontalSwitchY = 60;
+    float fhorizontalSwitchW = 30;
+    float fhorizontalSwitchH = 30;
+    _horizontalSwitch = [[ZJSwitch alloc] initWithFrame:CGRectMake(fhorizontalSwitchX, fhorizontalSwitchY, fhorizontalSwitchW, fhorizontalSwitchH)];
+    [self.view addSubview:_horizontalSwitch];
     
     float fRtmpUrlTextFieldX = 10;
     float fRtmpUrlTextFieldY = 100;
@@ -56,8 +71,17 @@
     
     [_LiveShowViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     _LiveShowViewController.RtmpUrl = [NSURL URLWithString:_RtmpUrlTextField.text];
+    _LiveShowViewController.IsHorizontal = [_horizontalSwitch isOn];
     
     [self presentModalViewController:_LiveShowViewController animated:YES];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return false;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)viewDidLoad {

@@ -13,6 +13,7 @@
 @interface LiveShowViewController : UIViewController<LIVEVCSessionDelegate, ASValueTrackingSliderDataSource, ASValueTrackingSliderDelegate>
 
 @property (atomic, copy) NSURL* RtmpUrl;
+@property (atomic, assign) Boolean IsHorizontal;
 
 - (void) LiveConnectionStatusChanged: (LIVE_VCSessionState) sessionState;
 

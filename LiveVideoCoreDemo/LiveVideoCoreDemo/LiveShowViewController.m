@@ -26,6 +26,11 @@
 -(void) UIInit{
     double fScreenW = [UIScreen mainScreen].bounds.size.width;
     double fScreenH = [UIScreen mainScreen].bounds.size.height;
+    if (self.IsHorizontal) {
+        double fTmp = fScreenH;
+        fScreenH = fScreenW;
+        fScreenW = fTmp;
+    }
     
     _AllBackGroudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, fScreenW, fScreenH)];
     [self.view addSubview:_AllBackGroudView];
@@ -106,7 +111,14 @@
 
 -(void) RtmpInit{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:LIVE_VIEDO_SIZE_D1 BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_FRAMERATE_20];
+        CGSize videosize;
+        
+        if (self.IsHorizontal) {
+            videosize = LIVE_VIEDO_SIZE_HORIZONTAL_D1;
+        }else{
+            videosize = LIVE_VIEDO_SIZE_D1;
+        }
+        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:videosize BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_FRAMERATE_20];
         [LiveVideoCoreSDK sharedinstance].delegate = self;
         [[LiveVideoCoreSDK sharedinstance] connect];
         NSLog(@"Rtmp[%@] is connecting", self.RtmpUrl);
@@ -194,6 +206,22 @@
     [[LiveVideoCoreSDK sharedinstance] disconnect];
     [[LiveVideoCoreSDK sharedinstance] LiveRelease];
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    if(self.IsHorizontal){
+        bool bRet = ((toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) || (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft));
+        return bRet;
+    }else{
+        return false;
+    }
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    if(self.IsHorizontal){
+        return UIInterfaceOrientationMaskLandscapeRight|UIInterfaceOrientationMaskLandscapeLeft;
+    }else{
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 - (void)viewDidLoad {
