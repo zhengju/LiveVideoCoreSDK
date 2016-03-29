@@ -86,8 +86,8 @@
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/Users/kaola/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk/lib/engines"
-#define OPENSSLDIR "/Users/kaola/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk"
+#define ENGINESDIR "/Users/alex/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk/lib/engines"
+#define OPENSSLDIR "/Users/alex/Documents/code/IOS_code_from_github/rtmpdump/build/openssl-iPhoneOS9.2-armv7.sdk"
 #endif
 #endif
 
