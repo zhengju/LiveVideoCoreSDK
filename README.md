@@ -34,7 +34,7 @@ SDK代码结构简介：
 
 2) LiveVideoCoreSDK是SDK接口，视频直播的接口都在这里；
 
-3) Pods: 核心代码，希望自己研究和改进代码的，来这里。
+3) RtmpLivePushSDK: 核心代码，基于videocore进行了修改，希望自己研究和改进代码的，来这里。
 
 备注：本客户端支持Wowza, nginx-rtmp，Edgecast，RED5，FMS几种类型的RTMP服务器. >还未确认支持的有crtmpserver和python rtmp server。
 --------------------------------------------------------
