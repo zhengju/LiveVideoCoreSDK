@@ -76,6 +76,7 @@ typedef NS_ENUM(NSUInteger, LIVE_FILTER_TYPE) {
 - (void)setCameraFront:(Boolean)bCameraFrontFlag;
 - (void)setFilter:(LIVE_FILTER_TYPE) type;
 
+- (void)focuxAtPoint:(CGPoint)point;
 //VCSessionDelegate protocal
 - (void) connectionStatusChanged: (VCSessionState) sessionState;
 
