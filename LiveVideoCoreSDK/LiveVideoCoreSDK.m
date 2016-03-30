@@ -162,6 +162,12 @@
     return _livesession.micGain;
 }
 
+- (void)focuxAtPoint:(CGPoint)point
+{
+    _livesession.focusPointOfInterest = point;
+    _livesession.exposurePointOfInterest = point;
+}
+
 //delegate operation
 - (void) connectionStatusChanged: (VCSessionState) sessionState{
     NSLog(@"rtmp live state: %i", sessionState);

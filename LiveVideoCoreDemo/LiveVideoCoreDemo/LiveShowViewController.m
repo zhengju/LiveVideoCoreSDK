@@ -20,6 +20,8 @@
     ASValueTrackingSlider* _MicSlider;
     
     Boolean _bCameraFrontFlag;
+    
+    UIView *_focusBox;
 }
 @synthesize RtmpUrl;
 
@@ -107,6 +109,16 @@
     _MicSlider.dataSource = self;
     _MicSlider.value = 5;
     [self.view addSubview:_MicSlider];
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dealSingleTap:)];
+    [self.view addGestureRecognizer:singleTap];
+    
+    _focusBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
+    _focusBox.backgroundColor = [UIColor clearColor];
+    _focusBox.layer.borderColor = [UIColor greenColor].CGColor;
+    _focusBox.layer.borderWidth = 5.0f;
+    _focusBox.hidden = YES;
+    [self.view addSubview:_focusBox];
 }
 
 -(void) RtmpInit{
@@ -337,4 +349,29 @@
     NSLog(@"sliderWillHidePopUpView...");
 }
 
+- (void)dealSingleTap:(UITapGestureRecognizer *)tap
+{
+    CGPoint point = [tap locationInView:self.view];
+    [[LiveVideoCoreSDK sharedinstance] focuxAtPoint:point];
+    [self runBoxAnimationOnView:_focusBox point:point];
+}
+//对焦的动画效果
+- (void)runBoxAnimationOnView:(UIView *)view point:(CGPoint)point {
+    view.center = point;
+    view.hidden = NO;
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         view.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+                     }
+                     completion:^(BOOL complete) {
+                         double delayInSeconds = 0.5f;
+                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                             view.hidden = YES;
+                             view.transform = CGAffineTransformIdentity;
+                         });
+                     }];
+}
 @end
