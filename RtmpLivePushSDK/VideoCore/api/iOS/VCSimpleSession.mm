@@ -644,7 +644,11 @@ namespace videocore { namespace simpleApi {
 }
 - (void) endRtmpSession
 {
-
+    if(m_outputSession == nil){
+        return;
+    }
+    m_outputSession->setEndFlag(1);
+    
     m_h264Packetizer.reset();
     m_aacPacketizer.reset();
     m_videoSplit->removeOutput(m_h264Encoder);

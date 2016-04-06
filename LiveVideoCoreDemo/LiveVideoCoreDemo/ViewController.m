@@ -69,7 +69,7 @@
     NSLog(@"Start live Rtmp:%@", _RtmpUrlTextField.text);
     _LiveShowViewController = [[LiveShowViewController alloc] init];
     
-    [_LiveShowViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    //[_LiveShowViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     _LiveShowViewController.RtmpUrl = [NSURL URLWithString:_RtmpUrlTextField.text];
     _LiveShowViewController.IsHorizontal = [_horizontalSwitch isOn];
     

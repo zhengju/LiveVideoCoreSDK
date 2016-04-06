@@ -177,15 +177,24 @@ namespace videocore
                 if ((0 == _rtmpSession->IsConnected()) || (0 == _rtmpSession->GetConnectedFlag())){
                     _rtmpSession->Connect();
                     if (0 != _rtmpSession->IsConnected()) {
-                        m_callback(*this, kClientStateSessionStarted);
-                        iFlag = kClientStateSessionStarted;
+                        if(_iEndFlag){
+                            break;
+                        }
+                        if(iFlag != kClientStateSessionStarted){
+                            m_callback(*this, kClientStateSessionStarted);
+                            iFlag = kClientStateSessionStarted;
+                        }
                         usleep(100);
                         continue;
                     }else{
                         if (kClientStateSessionStarted != iFlag) {
-                            
-                            m_callback(*this, kClientStateHandshake0);
-                            iFlag = kClientStateHandshake0;
+                            if(_iEndFlag){
+                                break;
+                            }
+                            if(iFlag != kClientStateHandshake0){
+                                m_callback(*this, kClientStateHandshake0);
+                                iFlag = kClientStateHandshake0;
+                            }
                         }
                         usleep(100);
                         continue;
@@ -198,14 +207,24 @@ namespace videocore
                         _rtmpSession->Connect();
                     }
                     if (0 != _rtmpSession->IsConnected()) {
-                        m_callback(*this, kClientStateSessionStarted);
-                        iFlag = kClientStateSessionStarted;
+                        if(_iEndFlag){
+                            break;
+                        }
+                        if(iFlag != kClientStateSessionStarted){
+                            m_callback(*this, kClientStateSessionStarted);
+                            iFlag = kClientStateSessionStarted;
+                        }
                         usleep(100);
                         continue;
                     }else{
                         if (kClientStateSessionStarted != iFlag) {
-                            m_callback(*this, kClientStateHandshake0);
-                            iFlag = kClientStateHandshake0;
+                            if(_iEndFlag){
+                                break;
+                            }
+                            if(iFlag != kClientStateHandshake0){
+                                m_callback(*this, kClientStateHandshake0);
+                                iFlag = kClientStateHandshake0;
+                            }
                         }
                         usleep(100);
                         continue;
@@ -247,6 +266,12 @@ namespace videocore
                 usleep(10);
             }
         });
+    }
+    
+    void LibRtmpSessionMgr::setEndFlag(int iFlag){
+        _iEndFlag = iFlag;
+        m_sendQueue.mark_exiting();
+        m_sendQueue.enqueue_sync([]() {});
     }
     
     void LibRtmpSessionMgr::setBandwidthCallback(BandwidthCallback callback){
