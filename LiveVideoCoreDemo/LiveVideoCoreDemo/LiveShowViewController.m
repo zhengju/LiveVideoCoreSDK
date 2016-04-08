@@ -258,6 +258,9 @@
 
 - (void) appWillEnterForegroundNotification{
     NSLog(@"trigger event when will enter foreground.");
+    if (![self hasPermissionOfCamera]) {
+        return;
+    }
     [self RtmpInit];
 
 }
@@ -269,7 +272,9 @@
 - (void)WillResignActiveNotification{
     NSLog(@"LiveShowViewController: WillResignActiveNotification");
     
-
+    if (![self hasPermissionOfCamera]) {
+        return;
+    }
     //得到当前应用程序的UIApplication对象
     UIApplication *app = [UIApplication sharedApplication];
     
@@ -292,7 +297,17 @@
     //告诉系统我们完成了
     [app endBackgroundTask:taskID];
 }
-
+- (BOOL)hasPermissionOfCamera
+{
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if(authStatus != AVAuthorizationStatusAuthorized){
+        
+        NSLog(@"相机权限受限");
+        return NO;
+    }
+    return YES;
+}
 -(void) viewDidDisappear:(BOOL)animated{
     NSLog(@"CameraViewController: viewDidDisappear");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];//删除去激活界面的回调
