@@ -310,11 +310,15 @@ extern "C"
 			int dStop, int bLiveStream, long int timeout);
 
   int RTMP_ConnectEx(RTMP *r, RTMPPacket *cp, long timeout);
-  int RTMP_Connect(RTMP *r, RTMPPacket *cp);
+  //int RTMP_Connect(RTMP *r, RTMPPacket *cp);
+  int RTMP_Connect_Ipv4(RTMP *r, RTMPPacket *cp, long timeout);
+  int RTMP_Connect_Ipv6(RTMP *r, RTMPPacket *cp, long timeout);
   struct sockaddr;
+    struct sockaddr_in6;
   int RTMP_Connect0(RTMP *r, struct sockaddr *svc);
   int RTMP_Connect0Ex(RTMP *r, struct sockaddr * service, long timeout);
   int RTMP_Connect1(RTMP *r, RTMPPacket *cp);
+  int RTMP_Connect0_IPV6(RTMP *r, struct sockaddr_in6 *svc, long timeout);
   int RTMP_Serve(RTMP *r);
   int RTMP_TLS_Accept(RTMP *r, void *ctx);
 
