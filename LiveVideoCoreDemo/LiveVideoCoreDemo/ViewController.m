@@ -73,14 +73,14 @@
     _LiveShowViewController.RtmpUrl = [NSURL URLWithString:_RtmpUrlTextField.text];
     _LiveShowViewController.IsHorizontal = [_horizontalSwitch isOn];
     
-    [self presentModalViewController:_LiveShowViewController animated:YES];
+    [self presentViewController:_LiveShowViewController animated:YES completion:nil];
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return false;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 
