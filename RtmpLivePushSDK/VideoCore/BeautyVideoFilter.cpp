@@ -287,7 +287,7 @@ namespace videocore { namespace filters {
                 glUniform2fv(m_uWH, 1, fWHArray);
                 
                 GLfloat fBeautyParam[4];
-                getBeautyParam(fBeautyParam, LIVE_BEAUTY_LEVEL2);
+                getBeautyParam(fBeautyParam, LIVE_BEAUTY_LEVEL4);
                 glUniform4fv(m_beautyParam, 1, fBeautyParam);
                 break;
             case GL_3:

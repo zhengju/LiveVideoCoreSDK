@@ -130,7 +130,7 @@
         }else{
             videosize = LIVE_VIEDO_SIZE_D1;
         }
-        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:videosize BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_FRAMERATE_20];
+        [[LiveVideoCoreSDK sharedinstance] LiveInit:RtmpUrl Preview:_AllBackGroudView VideSize:videosize BitRate:LIVE_BITRATE_800Kbps FrameRate:LIVE_VIDEO_DEF_FRAMERATE highQuality:true];
         [LiveVideoCoreSDK sharedinstance].delegate = self;
         [[LiveVideoCoreSDK sharedinstance] connect];
         NSLog(@"Rtmp[%@] is connecting", self.RtmpUrl);

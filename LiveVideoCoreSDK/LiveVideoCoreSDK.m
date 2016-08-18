@@ -32,7 +32,11 @@
 
 - (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView{
     if (self) {
-        _livesession = [[VCSimpleSession alloc] initWithVideoSize:CGSizeMake(LIVE_VIDEO_DEF_WIDTH, LIVE_VIDEO_DEF_HEIGHT) frameRate:LIVE_VIDEO_DEF_FRAMERATE bitrate:LIVE_VIDEO_DEF_BITRATE useInterfaceOrientation:YES];
+        _livesession = [[VCSimpleSession alloc] initWithVideoSize:CGSizeMake(LIVE_VIDEO_DEF_WIDTH, LIVE_VIDEO_DEF_HEIGHT)
+                                                         frameRate:LIVE_VIDEO_DEF_FRAMERATE
+                                                           bitrate:LIVE_VIDEO_DEF_BITRATE
+                                           useInterfaceOrientation:YES
+                                                        originView:previewView];
         
         _livesession.delegate = self;
         
@@ -44,24 +48,6 @@
             NSLog(@"LiveInit: error rtmp url=%@", rtmpUrl.absoluteString);
             return;
         }
-        
-        NSString *strRtmpUrl = rtmpUrl.absoluteString;
-        NSArray *components = [strRtmpUrl componentsSeparatedByString:@"/"];
-        [components enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
-            NSString *host = components[0];
-            for (NSUInteger i = 1; i <= idx; i++) {
-                host = [host stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
-            }
-            _Dest = host;
-            
-            NSString *name = components[idx + 1];
-            for (NSUInteger i = idx + 2; i < components.count; i++) {
-                name = [name stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
-            }
-            _LiveName = name;
-            
-            *stop = YES;
-        }];
         
         _ShowPreview = previewView;
         [previewView addSubview:_livesession.previewView];
@@ -74,9 +60,13 @@
     return;
 }
 
-- (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView VideSize:(CGSize)videSize BitRate:(LIVE_BITRATE)iBitRate FrameRate:(LIVE_FRAMERATE)iFrameRate{
+- (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView VideSize:(CGSize)videSize BitRate:(LIVE_BITRATE)iBitRate FrameRate:(LIVE_FRAMERATE)iFrameRate highQuality:(Boolean)bhighQuality{
     if (self) {
-        _livesession = [[VCSimpleSession alloc] initWithVideoSize:videSize frameRate:iFrameRate bitrate:iBitRate useInterfaceOrientation:YES];
+        if(bhighQuality){
+            _livesession = [[VCSimpleSession alloc] initWithVideoSize:videSize frameRate:iFrameRate bitrate:iBitRate useInterfaceOrientation:YES originView:nil];
+        }else{
+            _livesession = [[VCSimpleSession alloc] initWithVideoSize:videSize frameRate:iFrameRate bitrate:iBitRate useInterfaceOrientation:YES originView:previewView];
+        }
         
         _livesession.delegate = self;
         
@@ -89,32 +79,16 @@
             return;
         }
         
-        NSString *strRtmpUrl = rtmpUrl.absoluteString;
-        NSArray *components = [strRtmpUrl componentsSeparatedByString:@"/"];
-        [components enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
-            NSString *host = components[0];
-            for (NSUInteger i = 1; i <= idx + 3; i++) {
-                host = [host stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
-            }
-            _Dest = host;
-            
-            NSString *name = components[idx + 4];
-            for (NSUInteger i = idx + 5; i < components.count; i++) {
-                name = [name stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
-            }
-            _LiveName = name;
-            
-            *stop = YES;
-        }];
-        
         _ShowPreview = previewView;
-        [previewView addSubview:_livesession.previewView];
-        _livesession.previewView.frame = previewView.bounds;
+        if(bhighQuality){
+            [previewView addSubview:_livesession.previewView];
+            _livesession.previewView.frame = previewView.bounds;
+        }
+        _ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         
         NSLog(@"rtmpUrl=%@, destination=%@, livename=%@\r\nwidth=%.2f, height=%.2f, bitRate=%lu, frameRate=%lu",
               rtmpUrl.absoluteString, _Dest, _LiveName,
               videSize.width, videSize.height, (unsigned long)iBitRate, (unsigned long)iFrameRate);
-        
     }
     
     return;
@@ -127,7 +101,25 @@
 
 - (void)connect {
     NSLog(@"connect: %@", _rtmpUrl);
-    [_livesession startRtmpSessionWithURL:_Dest andStreamKey:_LiveName];
+    NSString *strRtmpUrl = _rtmpUrl.absoluteString;
+    NSArray *components = [strRtmpUrl componentsSeparatedByString:@"/"];
+    [components enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
+        NSString *host = components[0];
+        for (NSUInteger i = 1; i <= idx; i++) {
+            host = [host stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
+        }
+        _Dest = host;
+        
+        NSString *name = components[idx + 1];
+        for (NSUInteger i = idx + 2; i < components.count; i++) {
+            name = [name stringByAppendingString:[NSString stringWithFormat:@"/%@", components[i]]];
+        }
+        _LiveName = name;
+        
+        *stop = YES;
+        [_livesession startRtmpSessionWithURL:_Dest andStreamKey:_LiveName];
+    }];
+    ;
 }
 
 - (void)disconnect {
@@ -181,10 +173,12 @@
 - (void)setCameraFront:(Boolean)bCameraFrontFlag {
     if (!bCameraFrontFlag) {
         _livesession.cameraState = VCCameraStateBack;
-        //_ShowPreview.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        //_ShowPreview.transform = CGAffineTransformScale(_allBackgroudView.transform, -1.0, 1.0);
+        _ShowPreview.transform = CGAffineTransformMakeScale(1.0, 1.0);
     } else {
         _livesession.cameraState = VCCameraStateFront;
         //_ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        _ShowPreview.transform = CGAffineTransformMakeScale(-1.0, 1.0);
     }
 }
 

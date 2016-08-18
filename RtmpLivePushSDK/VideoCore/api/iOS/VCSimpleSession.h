@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, VCFilter) {
 
 @property (nonatomic, assign) id<VCSessionDelegate> delegate;
 
+@property (nonatomic, strong) UIView* originView;
+
 // -----------------------------------------------------------------------------
 - (instancetype) initWithVideoSize:(CGSize)videoSize
                          frameRate:(int)fps
@@ -117,7 +119,8 @@ typedef NS_ENUM(NSInteger, VCFilter) {
 - (instancetype) initWithVideoSize:(CGSize)videoSize
                          frameRate:(int)fps
                            bitrate:(int)bps
-           useInterfaceOrientation:(BOOL)useInterfaceOrientation;
+           useInterfaceOrientation:(BOOL)useInterfaceOrientation
+                        originView:(UIView*)originView;
 
 // -----------------------------------------------------------------------------
 - (instancetype) initWithVideoSize:(CGSize)videoSize

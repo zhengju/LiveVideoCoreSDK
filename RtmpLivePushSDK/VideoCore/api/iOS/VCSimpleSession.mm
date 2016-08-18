@@ -61,6 +61,8 @@
 
 
 static const int kMinVideoBitrate = 32000;
+static const int kMinAudioBitrate = 64000;
+static const int kDefAudioSampleRate = 22050;
 
 namespace videocore { namespace simpleApi {
 
@@ -406,14 +408,16 @@ namespace videocore { namespace simpleApi {
                          frameRate:(int)fps
                            bitrate:(int)bps
            useInterfaceOrientation:(BOOL)useInterfaceOrientation
+                        originView:(UIView*)originView
 {
     if (( self = [super init] ))
     {
+        self.originView = originView;
         [self initInternalWithVideoSize:videoSize
                               frameRate:fps
                                 bitrate:bps
                 useInterfaceOrientation:useInterfaceOrientation
-                            cameraState:VCCameraStateBack
+                            cameraState:VCCameraStateFront
                              aspectMode:VCAspectModeFit];
     }
     return self;
@@ -471,7 +475,7 @@ namespace videocore { namespace simpleApi {
     _useInterfaceOrientation = useInterfaceOrientation;
     self.micGain = 1.f;
     self.audioChannelCount = 2;
-    self.audioSampleRate = 44100.;
+    self.audioSampleRate = kDefAudioSampleRate;
     self.useAdaptiveBitrate = NO;
     self.aspectMode = aspectMode;
 
@@ -741,9 +745,13 @@ namespace videocore { namespace simpleApi {
         m_videoSplit = videoSplit;
         VCPreviewView* preview = (VCPreviewView*)self.previewView;
 
+
         m_pbOutput = std::make_shared<videocore::simpleApi::PixelBufferOutput>([=](const void* const data, size_t size){
-            CVPixelBufferRef ref = (CVPixelBufferRef)data;
-            [preview drawFrame:ref];
+            if(self.originView == nil){
+                CVPixelBufferRef ref = (CVPixelBufferRef)data;
+                [preview drawFrame:ref];
+            }
+
             if(self.rtmpSessionState == VCSessionStateNone) {
                 self.rtmpSessionState = VCSessionStatePreviewStarted;
             }
@@ -790,6 +798,16 @@ namespace videocore { namespace simpleApi {
                 [_delegate didAddCameraSource:self];
             }
         });
+        if(self.originView != nil){
+            AVCaptureVideoPreviewLayer* cameraPrviewLayer = nil;
+            [self getCameraPreviewLayer:&cameraPrviewLayer];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(cameraPrviewLayer != nil){
+                    cameraPrviewLayer.frame = self.originView.frame;
+                    [self.originView.layer addSublayer:cameraPrviewLayer];
+                }
+            });
+        }
     }
     {
         // Add mic source
@@ -812,7 +830,7 @@ namespace videocore { namespace simpleApi {
     {
         // Add encoders
 
-        m_aacEncoder = std::make_shared<videocore::iOS::AACEncode>(self.audioSampleRate, self.audioChannelCount, 96000);
+        m_aacEncoder = std::make_shared<videocore::iOS::AACEncode>(self.audioSampleRate, self.audioChannelCount, kMinAudioBitrate);
         if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
             // If >= iOS 8.0 use the VideoToolbox encoder that does not write to disk.
             m_h264Encoder = std::make_shared<videocore::Apple::H264Encode>(self.videoSize.width,

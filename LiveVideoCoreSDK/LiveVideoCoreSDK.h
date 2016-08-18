@@ -19,6 +19,7 @@
 #define LIVE_VIEDO_SIZE_HORIZONTAL_D1   (CGSizeMake(960, 540))
 #define LIVE_VIEDO_SIZE_HORIZONTAL_720P (CGSizeMake(1280, 720))
 
+#define LIVE_VIEDO_SIZE_SMALL_CIF  (CGSizeMake(180, 320))
 #define LIVE_VIEDO_SIZE_CIF  (CGSizeMake(360, 640))
 #define LIVE_VIEDO_SIZE_D1   (CGSizeMake(540, 960))
 #define LIVE_VIEDO_SIZE_720P (CGSizeMake(720, 1280))
@@ -26,7 +27,8 @@
 typedef NS_ENUM(NSUInteger, LIVE_BITRATE) {
     LIVE_BITRATE_1Mbps=1500000,
     LIVE_BITRATE_800Kbps=800000,
-    LIVE_BITRATE_500Kbps=500000
+    LIVE_BITRATE_600Kbps=600000,
+    LIVE_BITRATE_300Kbps=300000
 };
 
 typedef NS_ENUM(NSUInteger, LIVE_FRAMERATE) {
@@ -62,11 +64,11 @@ typedef NS_ENUM(NSUInteger, LIVE_FILTER_TYPE) {
 
 + (instancetype)sharedinstance;
 
-@property (atomic, weak)   id<LIVEVCSessionDelegate> delegate;
+@property (nonatomic, weak)   id<LIVEVCSessionDelegate> delegate;
 @property (atomic, assign) float micGain;//0~1.0
 
 - (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView;
-- (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView VideSize:(CGSize)videSize BitRate:(LIVE_BITRATE)iBitRate FrameRate:(LIVE_FRAMERATE)iFrameRate;
+- (void)LiveInit:(NSURL*)rtmpUrl Preview:(UIView*)previewView VideSize:(CGSize)videSize BitRate:(LIVE_BITRATE)iBitRate FrameRate:(LIVE_FRAMERATE)iFrameRate  highQuality:(Boolean)bhighQuality;
 
 - (void)LiveRelease;
 

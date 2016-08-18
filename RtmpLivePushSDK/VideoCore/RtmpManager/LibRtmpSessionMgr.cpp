@@ -11,6 +11,8 @@
 
 static unsigned int RTMP_SEND_QUEUE_MAX = 100;
 
+#define RTMP_SESSION_SLEEP_TIME (10*1000)
+
 namespace videocore
 {
     RTMP_Queue_Manager::RTMP_Queue_Manager(){
@@ -184,7 +186,7 @@ namespace videocore
                             m_callback(*this, kClientStateSessionStarted);
                             iFlag = kClientStateSessionStarted;
                         }
-                        usleep(100);
+                        usleep(RTMP_SESSION_SLEEP_TIME);
                         continue;
                     }else{
                         if (kClientStateSessionStarted != iFlag) {
@@ -196,7 +198,7 @@ namespace videocore
                                 iFlag = kClientStateHandshake0;
                             }
                         }
-                        usleep(100);
+                        usleep(RTMP_SESSION_SLEEP_TIME);
                         continue;
                     }
                 }
@@ -214,7 +216,7 @@ namespace videocore
                             m_callback(*this, kClientStateSessionStarted);
                             iFlag = kClientStateSessionStarted;
                         }
-                        usleep(100);
+                        usleep(RTMP_SESSION_SLEEP_TIME);
                         continue;
                     }else{
                         if (kClientStateSessionStarted != iFlag) {
@@ -226,17 +228,17 @@ namespace videocore
                                 iFlag = kClientStateHandshake0;
                             }
                         }
-                        usleep(100);
+                        usleep(RTMP_SESSION_SLEEP_TIME);
                         continue;
                     }
                 }
                 if(0 == _rtmpSession->GetConnectedFlag()){
-                    usleep(100);
+                    usleep(RTMP_SESSION_SLEEP_TIME);
                     continue;
                 }
                 RTMP_QUEUE_ITEM* pItem = _rtmpSendQueueManager.ReadQueueAndRelease();
                 if (pItem == NULL) {
-                    usleep(100);
+                    usleep(RTMP_SESSION_SLEEP_TIME);
                     continue;
                 }
                 unsigned int uiMsgTypeId = pItem->uiType;
@@ -263,7 +265,7 @@ namespace videocore
                 if (pItem){
                     free(pItem);
                 }
-                usleep(10);
+                usleep(RTMP_SESSION_SLEEP_TIME);
             }
         });
     }

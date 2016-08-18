@@ -80,7 +80,7 @@ namespace videocore { namespace iOS {
             if(&AVVideoAllowFrameReorderingKey != nullptr) {
                 settings = @{AVVideoCodecKey: AVVideoCodecH264,
                              AVVideoCompressionPropertiesKey: @{AVVideoAverageBitRateKey: @(m_bitrate),
-                                                                AVVideoMaxKeyFrameIntervalKey: @(m_fps*2),
+                                                                AVVideoMaxKeyFrameIntervalKey: @(m_fps),
                                                                 AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline41/*,
                                                                 AVVideoAllowFrameReorderingKey: @NO*/
                                                                 },
@@ -90,7 +90,7 @@ namespace videocore { namespace iOS {
             } else {
                 settings = @{AVVideoCodecKey: AVVideoCodecH264,
                              AVVideoCompressionPropertiesKey: @{AVVideoAverageBitRateKey: @(m_bitrate),
-                                                                AVVideoMaxKeyFrameIntervalKey: @(m_fps*2),
+                                                                AVVideoMaxKeyFrameIntervalKey: @(m_fps),
                                                                 AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline31
                                                                 },
                              AVVideoWidthKey: @(m_frameW),
