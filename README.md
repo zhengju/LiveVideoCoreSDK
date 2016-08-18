@@ -3,6 +3,11 @@
 ============================
 LiveVideoCoreSDK是基于IOS的视频直播SDK(支持IOS8.1以上,基于开源videocore进行了改进)
 -----------------------------------------------------------------------------
+分辨率,速率配对关系:<br/>
+1, 720x1280:至少1.5mbps;<br/>
+2, 540*960: 至少800kbps;<br/>
+3, 360*640: 至少:600kbps;<br/>
+ 
 如果想获取丰富的滤镜直播效果，并且免除编译整合的困难, 可以到我新的基于gpuimage的代码库:
 [https://github.com/runner365/GPUImageRtmpPush] (https://github.com/runner365/GPUImageRtmpPush)<br/>
 Android rtmp拍摄直播SDK:[https://github.com/runner365/android_rtmppush_sdk] (https://github.com/runner365/android_rtmppush_sdk)<br/>
