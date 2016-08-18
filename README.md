@@ -8,7 +8,7 @@ LiveVideoCoreSDK是基于IOS的视频直播SDK(支持IOS8.1以上,基于开源vi
 2, 540*960: 至少800kbps;<br/>
 3, 360*640: 至少:600kbps;<br/>
  
-如果想获取丰富的滤镜直播效果，并且免除编译整合的困难, 可以到我新的基于gpuimage的代码库:
+如果想获取丰富的滤镜直播效果，并且免除编译整合的困难, 可以到我新的基于gpuimage的代码库:<br/>
 1, 多滤镜IOS推流SDK:<br/>
 基于GPUImage的多滤镜拍摄, 滤镜资源丰富. [https://github.com/runner365/GPUImageRtmpPush] (https://github.com/runner365/GPUImageRtmpPush)<br/>
 2, Android rtmp拍摄直播SDK:<br/>
