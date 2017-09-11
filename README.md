@@ -17,6 +17,6 @@ Android手机软编码，手机适配能力强，支持所有市面的RTMP服务
 <br/>
 RTMP推荐开源服务器:
 ----------------------
-NGINX-RTMP: 基于NGINX的rtmp服务模块，需要结合nginx来进行编译. [https://github.com/arut/nginx-rtmp-module] (https://github.com/arut/nginx-rtmp-module)<br/>
+livego: 基于golang进行开发的rtmp服务，golang轻量级协程，性能高，二次开发非常方便和容易. [https://github.com/runner365/livego] (https://github.com/runner365/livego)<br/>
 SRS(simple rtmp server): 国产独立的RTMP服务， [https://github.com/ossrs/srs] (https://github.com/ossrs/srs)<br/>
 
